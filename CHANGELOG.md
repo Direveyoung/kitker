@@ -14,6 +14,12 @@
 ### Changed
 - 기술 스택 명세를 Next.js 14 → 16 / Tailwind 3 → 4로 갱신 (CLAUDE.md)
 
+### Added (Step 2)
+- shadcn/ui init: style=`base-nova` (Base UI 기반), baseColor=`zinc`, css-variables
+- 컴포넌트: button, input, checkbox, dialog, dropdown-menu, sonner
+- `components.json`, `lib/utils.ts`, `tw-animate-css`, `class-variance-authority`, `tailwind-merge`, `lucide-react`
+- shadcn 4.x는 `toast`를 `sonner`로 통합 (toast 단독 추가 X)
+
 ---
 
 ## 작성 규칙

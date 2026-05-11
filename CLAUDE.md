@@ -30,7 +30,7 @@
 ```
 Next.js 16 (App Router, Turbopack) + React 19 + TypeScript 5
 Supabase (Postgres + Auth + Storage + RLS)
-Tailwind v4 + shadcn/ui
+Tailwind v4 + shadcn/ui (style: base-nova / Base UI 기반, baseColor: zinc)
 Lexical 에디터
 Anthropic Claude API (Tool Use) — 최신 모델 사용
 Pretendard Variable (dynamic-subset)
@@ -56,7 +56,7 @@ Vercel 배포
 6. **단계별개발** — Phase별 구현 (BEFORE_CODE / AFTER_CODE 체크리스트)
 7. **검증배포** — 테스트·QA·배포
 
-현재 1-4 완료. **5(환경셋업) 진행 중**: Step 1 (Next.js 스캐폴드) 완료.
+현재 1-4 완료. **5(환경셋업) 진행 중**: Step 1-2 완료 (Next.js + shadcn).
 
 ---
 
