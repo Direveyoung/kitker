@@ -1,6 +1,12 @@
 # 🌿 eve.works — 데이터 모델 v2.0
 
 > Phase 1-3 전체 스키마. Notion 블록 시스템 + Google Calendar 연동 + 클로이 챗 에이전트 포함.
+>
+> **2026-05-11 업데이트**: Supabase → **Neon Postgres + Auth.js v5** 전환.
+> Auth.js 표준 테이블 4개(`user`, `account`, `session`, `verificationToken`)가 추가되었고,
+> `profiles.id`는 `auth.users(id)` → `user(id)` 참조로 변경.
+> RLS는 사용자 1명 환경이라 Postgres RLS 대신 **application-level 필터링**(`where user_id = session.user.id`)으로 처리.
+> Phase 1 실제 스키마는 [`/lib/db/schema.ts`](../lib/db/schema.ts) (Drizzle ORM)와 [`/drizzle/0000_phase1_init.sql`](../drizzle/0000_phase1_init.sql) 기준.
 
 ---
 

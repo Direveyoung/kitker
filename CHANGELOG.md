@@ -20,6 +20,28 @@
 - `components.json`, `lib/utils.ts`, `tw-animate-css`, `class-variance-authority`, `tailwind-merge`, `lucide-react`
 - shadcn 4.x는 `toast`를 `sonner`로 통합 (toast 단독 추가 X)
 
+### Changed (Step 3 — 스택 피벗)
+- **Supabase → Neon Postgres + Auth.js v5 + Resend**로 전환 (Supabase free tier user-level 2개 한도 때문)
+- `.env.example` 갱신: DATABASE_URL, AUTH_SECRET, AUTH_RESEND_KEY, AUTH_RESEND_FROM
+- `docs/data_model.md` 헤더에 피벗 안내
+
+### Added (Step 4 — DB)
+- ORM: **Drizzle** (TS-first, Neon HTTP driver, snake_case 자동 변환)
+- 의존성: `drizzle-orm`, `drizzle-kit`, `@neondatabase/serverless`, `tsx`
+- `lib/db/schema.ts`: Auth.js 표준 4테이블(`user`, `account`, `session`, `verificationToken`) + `profiles` + `items`
+- `lib/db/index.ts`: Drizzle client (`neon-http`, `snake_case` casing)
+- `drizzle.config.ts`, `drizzle/0000_phase1_init.sql`
+- pg_trgm extension + GIN 인덱스 (`items.body`, `items.title`) — 한글 검색
+- `scripts/migrate.ts` (Neon Pool + drizzle-orm migrator)
+- npm scripts: `db:generate`, `db:migrate`, `db:studio`
+
+### Added (Step 5 — Auth)
+- `auth.ts`: Auth.js v5 + DrizzleAdapter + Resend provider + database session
+- `events.createUser`: 새 user 생성 시 `profiles` row 자동 insert
+- `app/api/auth/[...nextauth]/route.ts`: GET/POST handlers
+- `app/(auth)/login/page.tsx` + `actions.ts`: Magic Link form
+- `proxy.ts` (Next 16 신규 컨벤션, 구 `middleware.ts`): 인증 보호 + 콜백 URL 처리
+
 ---
 
 ## 작성 규칙

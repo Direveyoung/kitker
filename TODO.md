@@ -4,9 +4,9 @@
 
 - [x] Step 1: Next.js 16 + TypeScript + Tailwind v4 + Pretendard + next-themes 셋업
 - [x] Step 2: shadcn/ui 셋업 (base-nova / zinc / Base UI)
-- [ ] Step 3: Supabase 프로젝트 생성 + 환경변수
-- [ ] Step 4: DB 스키마 적용 (Phase 1 마이그레이션)
-- [ ] Step 5: Supabase Magic Link 인증
+- [x] Step 3: ~~Supabase~~ → **Neon Postgres** 프로젝트 + Auth.js + Resend 환경변수
+- [x] Step 4: Drizzle 스키마 마이그레이션 (Auth.js 테이블 4개 + profiles + items + pg_trgm)
+- [x] Step 5: Auth.js v5 Magic Link 인증 (Resend, login page, proxy)
 - [ ] Step 6: 메인 레이아웃 (사이드바 + 모바일 탭바)
 - [ ] Step 7: Inbox 구현
 - [ ] Step 8: Todo 구현

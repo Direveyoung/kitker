@@ -29,7 +29,8 @@
 
 ```
 Next.js 16 (App Router, Turbopack) + React 19 + TypeScript 5
-Supabase (Postgres + Auth + Storage + RLS)
+Neon Postgres (서버리스) + Drizzle ORM
+Auth.js v5 (Magic Link) + Resend (이메일 발송)
 Tailwind v4 + shadcn/ui (style: base-nova / Base UI 기반, baseColor: zinc)
 Lexical 에디터
 Anthropic Claude API (Tool Use) — 최신 모델 사용
@@ -39,8 +40,10 @@ next-pwa
 Vercel 배포
 ```
 
-**원래 docs 기준은 Next.js 14였으나, 2026-05-11 영아 이사 결정으로 최신(16)에 맞춤.**
-키베이스 허브 코드 패턴 재활용 시 Next 16 / Tailwind 4 변경점 주의 (App Router는 동일).
+**원래 docs 기준은 Next.js 14 + Supabase였으나, 2026-05-11 영아 이사 결정으로:**
+- 최신 Next 16 + Tailwind 4
+- Supabase free tier 한도(user-level) 때문에 Neon + Auth.js + Resend로 전환
+- RLS는 application-level 필터링으로 (Phase 1은 사용자 1명)
 
 ---
 
@@ -56,7 +59,7 @@ Vercel 배포
 6. **단계별개발** — Phase별 구현 (BEFORE_CODE / AFTER_CODE 체크리스트)
 7. **검증배포** — 테스트·QA·배포
 
-현재 1-4 완료. **5(환경셋업) 진행 중**: Step 1-2 완료 (Next.js + shadcn).
+현재 1-4 완료. **5(환경셋업) 진행 중**: Step 1-5 완료 (Next.js, shadcn, Neon DB, 마이그레이션, Magic Link 인증).
 
 ---
 
@@ -88,8 +91,8 @@ Vercel 배포
 ```
 eveworks/
 ├── app/                     # Next.js App Router
-│   ├── (auth)/login/
-│   ├── (app)/
+│   ├── (auth)/login/        # Magic Link 로그인
+│   ├── (app)/               # 인증 필요 영역 (Step 6+)
 │   │   ├── inbox/
 │   │   ├── todo/
 │   │   ├── notes/
@@ -100,20 +103,24 @@ eveworks/
 │   │   ├── budget/
 │   │   └── settings/
 │   └── api/
+│       ├── auth/[...nextauth]/  # Auth.js v5 핸들러
 │       ├── chloe/           # 클로이 챗 (Anthropic API)
 │       └── google/          # Google Calendar OAuth/Sync
 ├── components/
-│   ├── ui/                  # shadcn/ui
+│   ├── ui/                  # shadcn/ui (base-nova)
 │   ├── editor/              # Lexical
 │   ├── chloe/               # 챗 사이드패널
 │   └── blocks/              # Notion 블록 시스템
 ├── lib/
-│   ├── supabase/
+│   ├── db/                  # Drizzle ORM (schema, client)
 │   ├── anthropic/
 │   └── google/
-├── docs/
-└── supabase/
-    └── migrations/
+├── auth.ts                  # Auth.js v5 config (DrizzleAdapter + Resend)
+├── proxy.ts                 # Next 16 proxy (구 middleware) — 인증 보호
+├── drizzle/                 # 마이그레이션 SQL
+├── drizzle.config.ts
+├── scripts/migrate.ts       # 마이그레이션 실행
+└── docs/
 ```
 
 ---
