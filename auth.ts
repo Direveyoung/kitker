@@ -28,6 +28,12 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     verifyRequest: "/login?check-email=1",
   },
   session: { strategy: "database" },
+  callbacks: {
+    session({ session, user }) {
+      if (user?.id) session.user.id = user.id;
+      return session;
+    },
+  },
   events: {
     createUser: async ({ user }) => {
       if (user.id && user.email) {
