@@ -1,6 +1,6 @@
-import { CheckSquare, FileText, X } from "lucide-react";
-import { auth } from "@/auth";
+import { CheckSquare, FileText, Plus, X } from "lucide-react";
 import { redirect } from "next/navigation";
+import { auth } from "@/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { convertItem, createItem, deleteItem } from "@/lib/items/actions";
@@ -16,8 +16,14 @@ export default async function InboxPage() {
 
   return (
     <section className="flex flex-1 flex-col">
-      <div className="border-b p-4">
-        <form action={createItem} className="mx-auto flex max-w-3xl gap-2">
+      <header className="border-b bg-background/60 px-4 py-4 backdrop-blur sm:px-6">
+        <div className="mx-auto flex max-w-3xl items-center gap-3">
+          <h1 className="text-xl font-bold tracking-tight">📥 Inbox</h1>
+          <span className="text-xs text-muted-foreground">
+            ({items.length})
+          </span>
+        </div>
+        <form action={createItem} className="mx-auto mt-3 flex max-w-3xl gap-2">
           <input type="hidden" name="type" value="inbox" />
           <Input
             name="body"
@@ -25,12 +31,16 @@ export default async function InboxPage() {
             autoComplete="off"
             autoFocus
             required
+            className="h-11 text-base"
           />
-          <Button type="submit">담기</Button>
+          <Button type="submit" size="lg" className="gap-1">
+            <Plus className="size-4" />
+            담기
+          </Button>
         </form>
-      </div>
+      </header>
 
-      <div className="mx-auto w-full max-w-3xl flex-1 overflow-auto p-4">
+      <div className="mx-auto w-full max-w-3xl flex-1 overflow-auto p-4 sm:p-6">
         {items.length === 0 ? (
           <p className="mt-12 text-center text-sm text-muted-foreground">
             비어있어요. 위에 떠오른 걸 던지세요.
@@ -38,10 +48,10 @@ export default async function InboxPage() {
         ) : (
           groups.map((group) => (
             <div key={group.label} className="mb-6">
-              <h2 className="mb-2 text-xs uppercase tracking-wide text-muted-foreground">
+              <h2 className="mb-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
                 {group.label}
               </h2>
-              <ul className="space-y-1">
+              <ul className="space-y-0.5">
                 {group.items.map((item) => (
                   <InboxRow key={item.id} item={item} />
                 ))}
@@ -59,7 +69,7 @@ function InboxRow({ item }: { item: { id: string; body: string } }) {
   const toNote = convertItem.bind(null, item.id, "note");
   const remove = deleteItem.bind(null, item.id);
   return (
-    <li className="group flex items-start gap-2 rounded-md px-3 py-2 hover:bg-accent">
+    <li className="group flex items-start gap-2 rounded-md border border-transparent px-3 py-2 transition-colors hover:border-border hover:bg-accent/40">
       <span className="flex-1 whitespace-pre-wrap break-words text-sm">
         {item.body}
       </span>

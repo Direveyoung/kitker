@@ -18,7 +18,7 @@ function isActive(pathname: string, href: string) {
 export function SidebarNav() {
   const pathname = usePathname();
   return (
-    <nav className="flex flex-1 flex-col gap-1">
+    <nav className="flex flex-1 flex-col gap-0.5">
       {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
         const active = isActive(pathname, href);
         return (
@@ -26,13 +26,13 @@ export function SidebarNav() {
             key={href}
             href={href}
             className={cn(
-              "flex items-center gap-2 rounded-md px-3 py-2 text-sm transition-colors",
+              "flex items-center gap-2.5 rounded-md px-3 py-1.5 text-sm transition-colors",
               active
-                ? "bg-sidebar-accent text-sidebar-accent-foreground font-medium"
-                : "text-sidebar-foreground hover:bg-sidebar-accent/60",
+                ? "bg-sidebar-accent text-sidebar-accent-foreground font-semibold"
+                : "text-sidebar-foreground hover:bg-sidebar-accent/50",
             )}
           >
-            <Icon className="size-4" />
+            <Icon className={cn("size-4", active && "text-primary")} />
             {label}
           </Link>
         );

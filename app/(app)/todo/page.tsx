@@ -1,3 +1,4 @@
+import { Plus } from "lucide-react";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import { TodoRow } from "@/components/items/todo-row";
@@ -16,20 +17,30 @@ export default async function TodoPage() {
 
   return (
     <section className="flex flex-1 flex-col">
-      <div className="border-b p-4">
-        <form action={createItem} className="mx-auto flex max-w-3xl gap-2">
+      <header className="border-b bg-background/60 px-4 py-4 backdrop-blur sm:px-6">
+        <div className="mx-auto flex max-w-3xl items-center gap-3">
+          <h1 className="text-xl font-bold tracking-tight">✅ Todo</h1>
+          <span className="text-xs text-muted-foreground">
+            {pending.length}개 남음
+          </span>
+        </div>
+        <form action={createItem} className="mx-auto mt-3 flex max-w-3xl gap-2">
           <input type="hidden" name="type" value="todo" />
           <Input
             name="body"
             placeholder="+ 할일 추가"
             autoComplete="off"
             required
+            className="h-11 text-base"
           />
-          <Button type="submit">추가</Button>
+          <Button type="submit" size="lg" className="gap-1">
+            <Plus className="size-4" />
+            추가
+          </Button>
         </form>
-      </div>
+      </header>
 
-      <div className="mx-auto w-full max-w-3xl flex-1 overflow-auto p-4">
+      <div className="mx-auto w-full max-w-3xl flex-1 overflow-auto p-4 sm:p-6">
         {todos.length === 0 && (
           <p className="mt-12 text-center text-sm text-muted-foreground">
             할 일이 없어요. 깔끔!
@@ -37,7 +48,7 @@ export default async function TodoPage() {
         )}
 
         {pending.length > 0 && (
-          <ul className="mb-6 space-y-1">
+          <ul className="mb-6 space-y-0.5">
             {pending.map((item) => (
               <TodoRow
                 key={item.id}
@@ -53,11 +64,11 @@ export default async function TodoPage() {
         )}
 
         {done.length > 0 && (
-          <>
-            <h2 className="mb-2 text-xs uppercase tracking-wide text-muted-foreground">
+          <details className="group" open={pending.length === 0}>
+            <summary className="mb-2 cursor-pointer text-xs font-medium uppercase tracking-wide text-muted-foreground hover:text-foreground">
               완료 ({done.length})
-            </h2>
-            <ul className="space-y-1">
+            </summary>
+            <ul className="space-y-0.5">
               {done.map((item) => (
                 <TodoRow
                   key={item.id}
@@ -70,7 +81,7 @@ export default async function TodoPage() {
                 />
               ))}
             </ul>
-          </>
+          </details>
         )}
       </div>
     </section>
