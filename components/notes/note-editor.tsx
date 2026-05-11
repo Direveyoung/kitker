@@ -1,8 +1,10 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState, useTransition } from "react";
-import { Trash2 } from "lucide-react";
+import { ChevronLeft, Trash2 } from "lucide-react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { deleteItem, updateNote } from "@/lib/items/actions";
@@ -18,11 +20,16 @@ export function NoteEditor({ note }: { note: Note }) {
   const router = useRouter();
   const [title, setTitle] = useState(note.title ?? "");
   const [body, setBody] = useState(note.body ?? "");
-  const [, startTransition] = useTransition();
+  const [pending, startTransition] = useTransition();
   const [savedAt, setSavedAt] = useState<Date | null>(note.updatedAt ?? null);
+  const initialRef = useRef(true);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
+    if (initialRef.current) {
+      initialRef.current = false;
+      return;
+    }
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
     timeoutRef.current = setTimeout(() => {
       startTransition(async () => {
@@ -35,17 +42,23 @@ export function NoteEditor({ note }: { note: Note }) {
     };
   }, [title, body, note.id]);
 
+  const status = pending
+    ? "저장 중…"
+    : savedAt
+      ? `저장됨 ${savedAt.toLocaleTimeString("ko-KR", { hour: "2-digit", minute: "2-digit" })}`
+      : "";
+
   return (
-    <div className="flex flex-1 flex-col p-4 sm:p-6 max-w-3xl mx-auto w-full">
-      <div className="mb-2 flex items-center gap-2">
-        <Input
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="제목 (비워두면 첫 줄 자동)"
-          className="border-none px-0 text-xl font-bold shadow-none focus-visible:ring-0"
-        />
-        <span className="text-[11px] text-muted-foreground">
-          {savedAt ? `저장됨 ${savedAt.toLocaleTimeString("ko-KR", { hour: "2-digit", minute: "2-digit" })}` : ""}
+    <div className="flex flex-1 flex-col">
+      <div className="flex items-center gap-1 border-b px-3 py-2">
+        <Link
+          href="/notes"
+          className="inline-flex items-center gap-1 rounded-md px-2 py-1 text-sm text-muted-foreground hover:bg-accent hover:text-foreground"
+        >
+          <ChevronLeft className="size-4" /> Notes
+        </Link>
+        <span className="ml-auto text-[11px] text-muted-foreground tabular-nums">
+          {status}
         </span>
         <Button
           type="button"
@@ -53,6 +66,7 @@ export function NoteEditor({ note }: { note: Note }) {
           size="icon-sm"
           onClick={async () => {
             await deleteItem(note.id);
+            toast.success("노트를 삭제했어요");
             router.push("/notes");
           }}
           title="삭제"
@@ -60,13 +74,22 @@ export function NoteEditor({ note }: { note: Note }) {
           <Trash2 className="size-4" />
         </Button>
       </div>
-      <textarea
-        value={body}
-        onChange={(e) => setBody(e.target.value)}
-        placeholder="자유롭게 적기..."
-        className="min-h-[60vh] flex-1 w-full resize-none border-none bg-transparent text-sm leading-relaxed outline-none placeholder:text-muted-foreground"
-        autoFocus
-      />
+
+      <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col p-4 sm:p-6">
+        <Input
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="제목 (비워두면 첫 줄 자동)"
+          className="mb-3 border-none px-0 text-xl font-bold shadow-none focus-visible:ring-0"
+        />
+        <textarea
+          value={body}
+          onChange={(e) => setBody(e.target.value)}
+          placeholder="자유롭게 적기…"
+          className="min-h-[60vh] flex-1 w-full resize-none border-none bg-transparent text-sm leading-relaxed outline-none placeholder:text-muted-foreground"
+          autoFocus
+        />
+      </div>
     </div>
   );
 }

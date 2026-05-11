@@ -42,7 +42,7 @@ export function TodoRow({ item }: { item: Item }) {
         type="button"
         variant="ghost"
         size="icon-xs"
-        className="opacity-0 group-hover:opacity-100"
+        className="md:opacity-0 md:group-hover:opacity-100"
         onClick={() => {
           void deleteItem(item.id);
         }}

@@ -63,7 +63,7 @@ function InboxRow({ item }: { item: { id: string; body: string } }) {
       <span className="flex-1 whitespace-pre-wrap break-words text-sm">
         {item.body}
       </span>
-      <div className="flex shrink-0 gap-1 opacity-0 transition-opacity group-hover:opacity-100">
+      <div className="flex shrink-0 gap-1 transition-opacity md:opacity-0 md:group-hover:opacity-100 md:focus-within:opacity-100">
         <form action={toTodo}>
           <Button type="submit" variant="ghost" size="icon-xs" title="Todo로">
             <CheckSquare className="size-3.5" />
