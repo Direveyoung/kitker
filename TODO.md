@@ -2,7 +2,7 @@
 
 ## Phase 1 — Week 1
 
-- [ ] Step 1: Next.js 14 + TypeScript + Tailwind 셋업
+- [x] Step 1: Next.js 16 + TypeScript + Tailwind v4 + Pretendard + next-themes 셋업
 - [ ] Step 2: shadcn/ui 셋업
 - [ ] Step 3: Supabase 프로젝트 생성 + 환경변수
 - [ ] Step 4: DB 스키마 적용 (Phase 1 마이그레이션)

@@ -28,17 +28,19 @@
 ## 🛠 기술 스택 (확정)
 
 ```
-Next.js 14 (App Router) + TypeScript
+Next.js 16 (App Router, Turbopack) + React 19 + TypeScript 5
 Supabase (Postgres + Auth + Storage + RLS)
-Tailwind + shadcn/ui
+Tailwind v4 + shadcn/ui
 Lexical 에디터
-Anthropic Claude API (Tool Use, claude-sonnet-4-20250514)
-Pretendard 폰트
+Anthropic Claude API (Tool Use) — 최신 모델 사용
+Pretendard Variable (dynamic-subset)
+next-themes (다크모드, class strategy)
 next-pwa
 Vercel 배포
 ```
 
-**키베이스 허브와 동일 스택** = 코드 패턴 재활용.
+**원래 docs 기준은 Next.js 14였으나, 2026-05-11 영아 이사 결정으로 최신(16)에 맞춤.**
+키베이스 허브 코드 패턴 재활용 시 Next 16 / Tailwind 4 변경점 주의 (App Router는 동일).
 
 ---
 
@@ -54,7 +56,7 @@ Vercel 배포
 6. **단계별개발** — Phase별 구현 (BEFORE_CODE / AFTER_CODE 체크리스트)
 7. **검증배포** — 테스트·QA·배포
 
-현재 1-4 완료. **5(환경셋업)부터 시작.**
+현재 1-4 완료. **5(환경셋업) 진행 중**: Step 1 (Next.js 스캐폴드) 완료.
 
 ---
 
