@@ -1,8 +1,8 @@
 import { redirect } from "next/navigation";
-import { Search } from "lucide-react";
 import { auth } from "@/auth";
 import { MobileTabbar, SidebarNav } from "@/components/layout/nav-list";
 import { UserMenu } from "@/components/layout/user-menu";
+import { SearchTrigger } from "@/components/search/search-trigger";
 
 export default async function AppLayout({
   children,
@@ -20,16 +20,7 @@ export default async function AppLayout({
           <span className="text-base font-semibold tracking-tight">eveworks</span>
         </div>
 
-        <button
-          type="button"
-          className="inline-flex items-center gap-2 rounded-md border bg-background px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-accent disabled:cursor-not-allowed disabled:opacity-60"
-          disabled
-          title="Cmd+K (곧 추가)"
-        >
-          <Search className="size-4" />
-          <span>검색</span>
-          <kbd className="ml-auto text-[10px] text-muted-foreground">⌘K</kbd>
-        </button>
+        <SearchTrigger />
 
         <SidebarNav />
 
