@@ -15,12 +15,13 @@ type Item = {
 
 export function TodoRow({ item }: { item: Item }) {
   return (
-    <li className="group flex items-center gap-3 rounded-md px-3 py-2 hover:bg-accent">
+    <li className="group flex items-center gap-3 rounded-md border border-transparent px-3 py-2 transition-colors hover:border-border hover:bg-accent/40">
       <Checkbox
         checked={item.completed}
         onCheckedChange={() => {
           void toggleTodo(item.id);
         }}
+        className="size-[18px] rounded-full"
       />
       <span
         className={cn(

@@ -33,7 +33,9 @@ export default async function AppLayout({
 
         <SidebarNav />
 
-        <UserMenu email={session.user.email} />
+        <div className="border-t pt-2">
+          <UserMenu email={session.user.email} />
+        </div>
       </aside>
 
       <main className="flex flex-1 flex-col pb-16 md:pb-0">{children}</main>

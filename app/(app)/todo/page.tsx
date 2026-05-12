@@ -17,7 +17,7 @@ export default async function TodoPage() {
 
   return (
     <section className="flex flex-1 flex-col">
-      <header className="border-b bg-background/60 px-4 py-4 backdrop-blur sm:px-6">
+      <header className="sticky top-0 z-10 border-b bg-background/80 px-4 py-4 backdrop-blur sm:px-6">
         <div className="mx-auto flex max-w-3xl items-center gap-3">
           <h1 className="text-xl font-bold tracking-tight">✅ Todo</h1>
           <span className="text-xs text-muted-foreground">
@@ -42,9 +42,11 @@ export default async function TodoPage() {
 
       <div className="mx-auto w-full max-w-3xl flex-1 overflow-auto p-4 sm:p-6">
         {todos.length === 0 && (
-          <p className="mt-12 text-center text-sm text-muted-foreground">
-            할 일이 없어요. 깔끔!
-          </p>
+          <div className="mt-16 space-y-2 text-center">
+            <p className="text-3xl">🎉</p>
+            <p className="text-sm font-medium">할 일이 없어요</p>
+            <p className="text-xs text-muted-foreground">깔끔!</p>
+          </div>
         )}
 
         {pending.length > 0 && (

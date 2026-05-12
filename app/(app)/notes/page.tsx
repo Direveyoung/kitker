@@ -15,7 +15,7 @@ export default async function NotesPage() {
 
   return (
     <section className="flex flex-1 flex-col">
-      <header className="border-b bg-background/60 px-4 py-4 backdrop-blur sm:px-6">
+      <header className="sticky top-0 z-10 border-b bg-background/80 px-4 py-4 backdrop-blur sm:px-6">
         <div className="mx-auto flex w-full max-w-3xl items-center justify-between">
           <div className="flex items-center gap-3">
             <h1 className="text-xl font-bold tracking-tight">💭 Notes</h1>
@@ -33,9 +33,13 @@ export default async function NotesPage() {
 
       <div className="mx-auto w-full max-w-3xl flex-1 overflow-auto p-4">
         {notes.length === 0 ? (
-          <p className="mt-12 text-center text-sm text-muted-foreground">
-            노트가 없어요. 위 + 새 노트로 시작하세요.
-          </p>
+          <div className="mt-16 space-y-2 text-center">
+            <p className="text-3xl">💭</p>
+            <p className="text-sm font-medium">노트가 없어요</p>
+            <p className="text-xs text-muted-foreground">
+              우측 상단 <b>+ 새 노트</b>로 시작하세요.
+            </p>
+          </div>
         ) : (
           <ul className="space-y-2">
             {notes.map((note) => {

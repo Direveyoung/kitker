@@ -16,7 +16,7 @@ export default async function InboxPage() {
 
   return (
     <section className="flex flex-1 flex-col">
-      <header className="border-b bg-background/60 px-4 py-4 backdrop-blur sm:px-6">
+      <header className="sticky top-0 z-10 border-b bg-background/80 px-4 py-4 backdrop-blur sm:px-6">
         <div className="mx-auto flex max-w-3xl items-center gap-3">
           <h1 className="text-xl font-bold tracking-tight">📥 Inbox</h1>
           <span className="text-xs text-muted-foreground">
@@ -42,9 +42,13 @@ export default async function InboxPage() {
 
       <div className="mx-auto w-full max-w-3xl flex-1 overflow-auto p-4 sm:p-6">
         {items.length === 0 ? (
-          <p className="mt-12 text-center text-sm text-muted-foreground">
-            비어있어요. 위에 떠오른 걸 던지세요.
-          </p>
+          <div className="mt-16 space-y-2 text-center">
+            <p className="text-3xl">📥</p>
+            <p className="text-sm font-medium">Inbox가 비어있어요</p>
+            <p className="text-xs text-muted-foreground">
+              떠오른 것은 일단 여기로. 정리는 나중에.
+            </p>
+          </div>
         ) : (
           groups.map((group) => (
             <div key={group.label} className="mb-6">
