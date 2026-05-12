@@ -79,6 +79,26 @@ export async function convertItem(id: string, type: ItemType) {
   revalidateAll();
 }
 
+export async function setPriority(id: string, priority: number) {
+  const userId = await requireUserId();
+  if (![1, 2, 3, 4].includes(priority)) return;
+  await db
+    .update(items)
+    .set({ priority, updatedAt: new Date() })
+    .where(and(eq(items.id, id), eq(items.userId, userId)));
+  revalidatePath("/todo");
+}
+
+export async function setDueDate(id: string, due: string | null) {
+  const userId = await requireUserId();
+  const dueDate = due && /^\d{4}-\d{2}-\d{2}$/.test(due) ? due : null;
+  await db
+    .update(items)
+    .set({ dueDate, updatedAt: new Date() })
+    .where(and(eq(items.id, id), eq(items.userId, userId)));
+  revalidatePath("/todo");
+}
+
 export async function updateNote(
   id: string,
   data: { title?: string | null; body?: string },

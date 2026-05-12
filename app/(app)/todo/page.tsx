@@ -59,6 +59,8 @@ export default async function TodoPage() {
                   body: item.body,
                   completed: item.completed,
                   carryOverCount: item.carryOverCount,
+                  priority: item.priority,
+                  dueDate: item.dueDate,
                 }}
               />
             ))}
@@ -79,6 +81,8 @@ export default async function TodoPage() {
                     body: item.body,
                     completed: item.completed,
                     carryOverCount: item.carryOverCount,
+                    priority: item.priority,
+                    dueDate: item.dueDate,
                   }}
                 />
               ))}
