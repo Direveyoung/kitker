@@ -1,6 +1,5 @@
 import {
   boolean,
-  date,
   index,
   integer,
   pgTable,
@@ -89,14 +88,21 @@ export const items = pgTable(
     completed: boolean("completed").default(false).notNull(),
     completedAt: timestamp("completed_at", { mode: "date" }),
     carryOverCount: integer("carry_over_count").default(0).notNull(),
-    dueDate: date("due_date", { mode: "string" }),
+    dueAt: timestamp("due_at", { mode: "date", withTimezone: true }),
+    recurrence: text("recurrence", {
+      enum: ["daily", "weekly", "monthly"],
+    }),
     priority: integer("priority").default(4).notNull(),
+    lastCarryOverAt: timestamp("last_carry_over_at", {
+      mode: "date",
+      withTimezone: true,
+    }),
     createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
     updatedAt: timestamp("updated_at", { mode: "date" }).defaultNow().notNull(),
   },
   (t) => [
     index("items_user_type_idx").on(t.userId, t.type, t.createdAt),
-    index("items_due_date_idx").on(t.dueDate),
+    index("items_due_at_idx").on(t.dueAt),
   ],
 );
 

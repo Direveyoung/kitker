@@ -1,4 +1,4 @@
-import { and, asc, desc, eq } from "drizzle-orm";
+import { and, asc, desc, eq, gte, isNotNull, lte } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { items } from "@/lib/db/schema";
 
@@ -24,6 +24,33 @@ export async function getNotes(userId: string) {
     .from(items)
     .where(and(eq(items.userId, userId), eq(items.type, "note")))
     .orderBy(desc(items.updatedAt));
+}
+
+export async function getUpcomingTodos(
+  userId: string,
+  hoursAhead: number = 24,
+) {
+  const now = new Date();
+  const until = new Date(now.getTime() + hoursAhead * 3600 * 1000);
+  return db
+    .select({
+      id: items.id,
+      body: items.body,
+      dueAt: items.dueAt,
+    })
+    .from(items)
+    .where(
+      and(
+        eq(items.userId, userId),
+        eq(items.type, "todo"),
+        eq(items.completed, false),
+        isNotNull(items.dueAt),
+        gte(items.dueAt, now),
+        lte(items.dueAt, until),
+      ),
+    )
+    .orderBy(asc(items.dueAt))
+    .limit(20);
 }
 
 export async function getNote(userId: string, id: string) {

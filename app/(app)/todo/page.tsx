@@ -4,12 +4,15 @@ import { auth } from "@/auth";
 import { TodoRow } from "@/components/items/todo-row";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { createItem } from "@/lib/items/actions";
+import { carryOverTodos, createItem } from "@/lib/items/actions";
 import { getTodoItems } from "@/lib/items/queries";
 
 export default async function TodoPage() {
   const session = await auth();
   if (!session?.user?.id) redirect("/login");
+
+  // 자정 자동 carry-over (idempotent — 하루 1회만 카운트 증가)
+  await carryOverTodos();
 
   const todos = await getTodoItems(session.user.id);
   const pending = todos.filter((t) => !t.completed);
@@ -28,7 +31,7 @@ export default async function TodoPage() {
           <input type="hidden" name="type" value="todo" />
           <Input
             name="body"
-            placeholder="+ 할일 추가"
+            placeholder='+ 할일 — "내일 오후 3시 회의", "매주 월요일 보고" 같이 입력하면 자동 인식'
             autoComplete="off"
             required
             className="h-11 text-base"
@@ -60,7 +63,8 @@ export default async function TodoPage() {
                   completed: item.completed,
                   carryOverCount: item.carryOverCount,
                   priority: item.priority,
-                  dueDate: item.dueDate,
+                  dueAt: item.dueAt,
+                  recurrence: item.recurrence,
                 }}
               />
             ))}
@@ -82,7 +86,8 @@ export default async function TodoPage() {
                     completed: item.completed,
                     carryOverCount: item.carryOverCount,
                     priority: item.priority,
-                    dueDate: item.dueDate,
+                    dueAt: item.dueAt,
+                    recurrence: item.recurrence,
                   }}
                 />
               ))}

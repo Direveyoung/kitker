@@ -1,23 +1,26 @@
 "use client";
 
-import { Calendar, Flag, X } from "lucide-react";
+import { Calendar, Flag, Repeat, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
   deleteItem,
-  setDueDate,
+  setDueAt,
   setPriority,
+  setRecurrence,
   toggleTodo,
 } from "@/lib/items/actions";
 import { cn } from "@/lib/utils";
 
 type Priority = 1 | 2 | 3 | 4;
+type Recurrence = "daily" | "weekly" | "monthly" | null;
 
 const PRIORITY_META: Record<Priority, { label: string; color: string; border: string }> = {
   1: { label: "P1 — 가장 높음", color: "text-red-500", border: "border-red-500" },
@@ -26,30 +29,54 @@ const PRIORITY_META: Record<Priority, { label: string; color: string; border: st
   4: { label: "P4 — 없음", color: "text-muted-foreground", border: "border-input" },
 };
 
-function todayString() {
-  const d = new Date();
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-  return `${y}-${m}-${day}`;
+const RECUR_META: Record<NonNullable<Recurrence>, string> = {
+  daily: "매일",
+  weekly: "매주",
+  monthly: "매월",
+};
+
+function pad(n: number) {
+  return String(n).padStart(2, "0");
 }
 
-function formatDue(due: string | null): { label: string; tone: string } | null {
-  if (!due) return null;
-  const today = todayString();
-  if (due === today) return { label: "오늘", tone: "text-emerald-600 font-medium" };
-  const diff = Math.floor(
-    (new Date(due).getTime() - new Date(today).getTime()) / 86400000,
+function toLocalDateTimeInput(d: Date): string {
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+
+function formatDue(dueAt: Date | string | null): {
+  label: string;
+  tone: string;
+  imminent: boolean;
+} | null {
+  if (!dueAt) return null;
+  const due = typeof dueAt === "string" ? new Date(dueAt) : dueAt;
+  const now = new Date();
+  const diffMs = due.getTime() - now.getTime();
+  const diffMin = Math.round(diffMs / 60000);
+  const diffHr = Math.round(diffMs / 3600000);
+  const todayStart = new Date();
+  todayStart.setHours(0, 0, 0, 0);
+  const dueStart = new Date(due);
+  dueStart.setHours(0, 0, 0, 0);
+  const dayDiff = Math.round(
+    (dueStart.getTime() - todayStart.getTime()) / 86400000,
   );
-  if (diff < 0) return { label: `${-diff}일 지남`, tone: "text-red-600" };
-  if (diff === 1) return { label: "내일", tone: "text-orange-600" };
-  if (diff <= 7) return { label: `${diff}일 후`, tone: "text-muted-foreground" };
+
+  const timeStr = `${pad(due.getHours())}:${pad(due.getMinutes())}`;
+
+  if (diffMs < 0) {
+    if (diffMin > -60) return { label: `${-diffMin}분 지남`, tone: "text-red-600 font-medium", imminent: true };
+    if (diffHr > -24) return { label: `${-diffHr}시간 지남`, tone: "text-red-600", imminent: false };
+    return { label: `${-dayDiff}일 지남`, tone: "text-red-600", imminent: false };
+  }
+  if (diffMin < 60) return { label: `${diffMin}분 후`, tone: "text-orange-600 font-medium", imminent: true };
+  if (dayDiff === 0) return { label: `오늘 ${timeStr}`, tone: "text-emerald-600 font-medium", imminent: diffHr < 2 };
+  if (dayDiff === 1) return { label: `내일 ${timeStr}`, tone: "text-orange-600", imminent: false };
+  if (dayDiff <= 7) return { label: `${dayDiff}일 후 ${timeStr}`, tone: "text-muted-foreground", imminent: false };
   return {
-    label: new Date(due).toLocaleDateString("ko-KR", {
-      month: "short",
-      day: "numeric",
-    }),
+    label: `${due.toLocaleDateString("ko-KR", { month: "short", day: "numeric" })} ${timeStr}`,
     tone: "text-muted-foreground",
+    imminent: false,
   };
 }
 
@@ -59,15 +86,23 @@ type Item = {
   completed: boolean;
   carryOverCount: number;
   priority: number;
-  dueDate: string | null;
+  dueAt: Date | string | null;
+  recurrence: Recurrence;
 };
 
 export function TodoRow({ item }: { item: Item }) {
   const pri = PRIORITY_META[(item.priority as Priority) ?? 4] ?? PRIORITY_META[4];
-  const due = formatDue(item.dueDate);
+  const due = formatDue(item.dueAt);
 
   return (
-    <li className="group flex items-center gap-3 rounded-md border border-transparent px-3 py-2 transition-colors hover:border-border hover:bg-accent/40">
+    <li
+      className={cn(
+        "group flex items-center gap-3 rounded-md border border-transparent px-3 py-2 transition-colors",
+        due?.imminent && !item.completed
+          ? "border-red-200 bg-red-50/50 dark:border-red-900/50 dark:bg-red-950/20"
+          : "hover:border-border hover:bg-accent/40",
+      )}
+    >
       <Checkbox
         checked={item.completed}
         onCheckedChange={() => void toggleTodo(item.id)}
@@ -85,6 +120,15 @@ export function TodoRow({ item }: { item: Item }) {
         {item.body}
       </span>
 
+      {item.recurrence && (
+        <span
+          className="flex shrink-0 items-center gap-0.5 text-[11px] text-muted-foreground"
+          title="반복 일정"
+        >
+          <Repeat className="size-3" />
+          {RECUR_META[item.recurrence]}
+        </span>
+      )}
       {due && (
         <span className={cn("shrink-0 text-xs whitespace-nowrap", due.tone)}>
           {due.label}
@@ -100,8 +144,9 @@ export function TodoRow({ item }: { item: Item }) {
       )}
 
       <div className="flex shrink-0 items-center gap-0.5 transition-opacity md:opacity-0 md:group-hover:opacity-100 md:focus-within:opacity-100">
-        <DateInput id={item.id} value={item.dueDate} />
+        <DateInput id={item.id} value={item.dueAt} />
         <PriorityMenu id={item.id} current={item.priority as Priority} />
+        <RecurrenceMenu id={item.id} current={item.recurrence} />
         <Button
           type="button"
           variant="ghost"
@@ -121,12 +166,7 @@ function PriorityMenu({ id, current }: { id: string; current: Priority }) {
     <DropdownMenu>
       <DropdownMenuTrigger
         render={
-          <Button
-            type="button"
-            variant="ghost"
-            size="icon-xs"
-            title="우선순위"
-          >
+          <Button type="button" variant="ghost" size="icon-xs" title="우선순위">
             <Flag
               className={cn(
                 "size-3.5",
@@ -138,10 +178,7 @@ function PriorityMenu({ id, current }: { id: string; current: Priority }) {
       />
       <DropdownMenuContent align="end">
         {([1, 2, 3, 4] as Priority[]).map((p) => (
-          <DropdownMenuItem
-            key={p}
-            onClick={() => void setPriority(id, p)}
-          >
+          <DropdownMenuItem key={p} onClick={() => void setPriority(id, p)}>
             <Flag className={cn("mr-2 size-3.5", PRIORITY_META[p].color)} />
             {PRIORITY_META[p].label}
           </DropdownMenuItem>
@@ -151,22 +188,76 @@ function PriorityMenu({ id, current }: { id: string; current: Priority }) {
   );
 }
 
-function DateInput({ id, value }: { id: string; value: string | null }) {
+function RecurrenceMenu({
+  id,
+  current,
+}: {
+  id: string;
+  current: Recurrence;
+}) {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger
+        render={
+          <Button type="button" variant="ghost" size="icon-xs" title="반복">
+            <Repeat
+              className={cn(
+                "size-3.5",
+                current ? "text-primary" : "text-muted-foreground",
+              )}
+            />
+          </Button>
+        }
+      />
+      <DropdownMenuContent align="end">
+        <DropdownMenuItem onClick={() => void setRecurrence(id, "daily")}>
+          매일
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => void setRecurrence(id, "weekly")}>
+          매주
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => void setRecurrence(id, "monthly")}>
+          매월
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onClick={() => void setRecurrence(id, null)}>
+          반복 없음
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
+
+function DateInput({
+  id,
+  value,
+}: {
+  id: string;
+  value: Date | string | null;
+}) {
+  const inputValue = value
+    ? toLocalDateTimeInput(typeof value === "string" ? new Date(value) : value)
+    : "";
+
   return (
     <label
       className="relative inline-flex size-6 cursor-pointer items-center justify-center rounded-md hover:bg-accent"
-      title="마감일"
+      title="마감일/시간"
     >
       <Calendar
         className={cn(
-          "size-3.5 pointer-events-none",
+          "pointer-events-none size-3.5",
           value ? "text-primary" : "text-muted-foreground",
         )}
       />
       <input
-        type="date"
-        value={value ?? ""}
-        onChange={(e) => void setDueDate(id, e.target.value || null)}
+        type="datetime-local"
+        value={inputValue}
+        onChange={(e) => {
+          const v = e.target.value;
+          // v: "YYYY-MM-DDTHH:MM" 또는 ""
+          void setDueAt(id, v || null);
+        }}
         className="absolute inset-0 cursor-pointer opacity-0"
       />
     </label>

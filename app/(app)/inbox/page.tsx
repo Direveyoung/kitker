@@ -68,12 +68,25 @@ export default async function InboxPage() {
   );
 }
 
-function InboxRow({ item }: { item: { id: string; body: string } }) {
+function InboxRow({
+  item,
+}: {
+  item: { id: string; body: string; createdAt: Date | null };
+}) {
   const toTodo = convertItem.bind(null, item.id, "todo");
   const toNote = convertItem.bind(null, item.id, "note");
   const remove = deleteItem.bind(null, item.id);
+  const exactTime = item.createdAt
+    ? item.createdAt.toLocaleString("ko-KR", {
+        dateStyle: "medium",
+        timeStyle: "short",
+      })
+    : "";
   return (
-    <li className="group flex items-start gap-2 rounded-md border border-transparent px-3 py-2 transition-colors hover:border-border hover:bg-accent/40">
+    <li
+      className="group flex items-start gap-2 rounded-md border border-transparent px-3 py-2 transition-colors hover:border-border hover:bg-accent/40"
+      title={exactTime}
+    >
       <span className="flex-1 whitespace-pre-wrap break-words text-sm">
         {item.body}
       </span>
