@@ -7,6 +7,7 @@ import { ChevronLeft, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { LexicalEditor } from "@/components/editor/lexical-editor";
 import { deleteItem, updateNote } from "@/lib/items/actions";
 
 type Note = {
@@ -50,7 +51,7 @@ export function NoteEditor({ note }: { note: Note }) {
 
   return (
     <div className="flex flex-1 flex-col">
-      <div className="flex items-center gap-1 border-b px-3 py-2">
+      <div className="sticky top-0 z-10 flex items-center gap-1 border-b bg-background/80 px-3 py-2 backdrop-blur">
         <Link
           href="/notes"
           className="inline-flex items-center gap-1 rounded-md px-2 py-1 text-sm text-muted-foreground hover:bg-accent hover:text-foreground"
@@ -82,11 +83,9 @@ export function NoteEditor({ note }: { note: Note }) {
           placeholder="제목 (비워두면 첫 줄 자동)"
           className="mb-3 border-none px-0 text-xl font-bold shadow-none focus-visible:ring-0"
         />
-        <textarea
-          value={body}
-          onChange={(e) => setBody(e.target.value)}
-          placeholder="자유롭게 적기…"
-          className="min-h-[60vh] flex-1 w-full resize-none border-none bg-transparent text-sm leading-relaxed outline-none placeholder:text-muted-foreground"
+        <LexicalEditor
+          initialMarkdown={note.body ?? ""}
+          onChange={(md) => setBody(md)}
           autoFocus
         />
       </div>
