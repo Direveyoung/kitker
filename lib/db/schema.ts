@@ -1,9 +1,12 @@
+import { sql } from "drizzle-orm";
 import {
   boolean,
   index,
   integer,
+  jsonb,
   pgTable,
   primaryKey,
+  smallint,
   text,
   timestamp,
   uuid,
@@ -106,9 +109,103 @@ export const items = pgTable(
   ],
 );
 
+// ─── v2: entities + 모듈별 확장 ────────────────────────────────────
+
+export const entities = pgTable(
+  "entities",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    userId: text("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    type: text("type", {
+      enum: [
+        "inbox",
+        "task",
+        "note",
+        "event",
+        "project",
+        "reading",
+        "journal",
+        "transaction",
+      ],
+    }).notNull(),
+    title: text("title"),
+    body: text("body"),
+    metadata: jsonb("metadata").default({}).notNull(),
+    tags: text("tags").array().default(sql`ARRAY[]::text[]`).notNull(),
+    createdAt: timestamp("created_at", {
+      mode: "date",
+      withTimezone: true,
+    })
+      .defaultNow()
+      .notNull(),
+    updatedAt: timestamp("updated_at", {
+      mode: "date",
+      withTimezone: true,
+    })
+      .defaultNow()
+      .notNull(),
+    deletedAt: timestamp("deleted_at", {
+      mode: "date",
+      withTimezone: true,
+    }),
+  },
+  (t) => [
+    index("idx_entities_user_type").on(t.userId, t.type),
+    index("idx_entities_updated_at").on(t.updatedAt),
+  ],
+);
+
+export const tasks = pgTable("tasks", {
+  entityId: uuid("entity_id")
+    .primaryKey()
+    .references(() => entities.id, { onDelete: "cascade" }),
+  completed: boolean("completed").default(false).notNull(),
+  completedAt: timestamp("completed_at", {
+    mode: "date",
+    withTimezone: true,
+  }),
+  dueAt: timestamp("due_at", { mode: "date", withTimezone: true }),
+  priority: smallint("priority").default(4).notNull(),
+  recurrence: text("recurrence", {
+    enum: ["daily", "weekly", "monthly"],
+  }),
+  carryOverCount: integer("carry_over_count").default(0).notNull(),
+  lastCarryOverAt: timestamp("last_carry_over_at", {
+    mode: "date",
+    withTimezone: true,
+  }),
+});
+
+export const events = pgTable("events", {
+  entityId: uuid("entity_id")
+    .primaryKey()
+    .references(() => entities.id, { onDelete: "cascade" }),
+  startsAt: timestamp("starts_at", {
+    mode: "date",
+    withTimezone: true,
+  }).notNull(),
+  endsAt: timestamp("ends_at", {
+    mode: "date",
+    withTimezone: true,
+  }).notNull(),
+  location: text("location"),
+  isAllDay: boolean("is_all_day").default(false).notNull(),
+  googleEventId: text("google_event_id"),
+});
+
 // ─── 타입 export ──────────────────────────────────────────────────
 
 export type User = typeof users.$inferSelect;
 export type Profile = typeof profiles.$inferSelect;
+export type Entity = typeof entities.$inferSelect;
+export type NewEntity = typeof entities.$inferInsert;
+export type Task = typeof tasks.$inferSelect;
+export type NewTask = typeof tasks.$inferInsert;
+export type EventRow = typeof events.$inferSelect;
+export type NewEvent = typeof events.$inferInsert;
+export type EntityType = Entity["type"];
+
+// v1 호환 (Phase 1 마이그레이션 후 사용 안 함)
 export type Item = typeof items.$inferSelect;
-export type NewItem = typeof items.$inferInsert;
