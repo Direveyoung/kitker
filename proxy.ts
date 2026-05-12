@@ -1,21 +1,16 @@
-import { auth } from "@/auth";
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
-const PUBLIC_PATHS = ["/login"];
-
-export default auth((req) => {
-  const { pathname } = req.nextUrl;
-  const isLoggedIn = !!req.auth;
-  const isPublic = PUBLIC_PATHS.some((p) => pathname === p || pathname.startsWith(`${p}/`));
-
-  if (!isLoggedIn && !isPublic) {
-    const loginUrl = new URL("/login", req.url);
-    loginUrl.searchParams.set("callbackUrl", pathname);
-    return Response.redirect(loginUrl);
+/**
+ * Phase 4까지 인증 비활성. EVE_AUTH_ENABLED=true 가 되면 Auth.js 흐름으로.
+ */
+export default function proxy(_req: NextRequest) {
+  if (process.env.EVE_AUTH_ENABLED !== "true") {
+    return NextResponse.next();
   }
-  if (isLoggedIn && pathname === "/login") {
-    return Response.redirect(new URL("/", req.url));
-  }
-});
+  // Phase 4 진입 시 여기에서 Auth.js auth() 호출 + /login redirect 로직 부활
+  return NextResponse.next();
+}
 
 export const config = {
   matcher: ["/((?!api/auth|_next/static|_next/image|favicon.ico).*)"],
