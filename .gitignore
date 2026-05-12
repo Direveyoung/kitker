@@ -45,3 +45,7 @@ next-env.d.ts
 
 # Supabase
 supabase/.temp/
+
+# DB backups (sensitive — 영아 이사 데이터)
+backup_v*.json
+*.dump
