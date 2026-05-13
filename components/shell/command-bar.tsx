@@ -56,8 +56,15 @@ export function CommandBar() {
         setOpen((p) => !p);
       }
     }
+    function onOpen() {
+      setOpen(true);
+    }
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    window.addEventListener("eveworks:open-search", onOpen);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      window.removeEventListener("eveworks:open-search", onOpen);
+    };
   }, []);
 
   useEffect(() => {

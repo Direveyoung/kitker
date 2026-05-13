@@ -164,6 +164,9 @@ export function Sidebar() {
             collapsed ? "size-9 justify-center" : "w-full px-3 py-2",
           )}
           title="검색 (⌘K)"
+          onClick={() =>
+            window.dispatchEvent(new CustomEvent("eveworks:open-search"))
+          }
         >
           <Search className="size-4 shrink-0" />
           {!collapsed && (
