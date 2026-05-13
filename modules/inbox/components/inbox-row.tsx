@@ -1,4 +1,5 @@
 import { CheckSquare, FileText, X } from "lucide-react";
+import { AutoLink } from "@/components/shared/auto-link";
 import { Button } from "@/components/ui/button";
 import {
   convertInboxToNote,
@@ -21,9 +22,9 @@ export function InboxRow({ item }: { item: InboxItem }) {
       className="group flex items-start gap-2 rounded-md border border-transparent px-3 py-2 transition-colors hover:border-border hover:bg-accent/40"
       title={exactTime}
     >
-      <span className="flex-1 whitespace-pre-wrap break-words text-sm">
-        {item.body}
-      </span>
+      <div className="flex-1 break-words text-sm">
+        <AutoLink text={item.body} />
+      </div>
       <div className="flex shrink-0 gap-1 transition-opacity md:opacity-0 md:group-hover:opacity-100 md:focus-within:opacity-100">
         <form action={toTask}>
           <Button type="submit" variant="ghost" size="icon-xs" title="Task로">

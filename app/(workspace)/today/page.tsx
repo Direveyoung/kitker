@@ -1,7 +1,8 @@
 import { Plus } from "lucide-react";
 import { requireUserId } from "@/lib/auth/dev-session";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { QuickForm } from "@/components/shared/quick-form";
+import { QuickInput } from "@/components/shared/quick-input";
 import { createInboxItem } from "@/modules/inbox/actions";
 import { carryOverTasks } from "@/modules/tasks/actions";
 import { TaskRow } from "@/modules/tasks/components/task-row";
@@ -56,19 +57,13 @@ export default async function TodayPage() {
           <h2 className="mb-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
             ⚡ Quick Capture
           </h2>
-          <form action={createInboxItem} className="flex gap-2">
-            <Input
-              name="body"
-              placeholder="떠오른 것 — Inbox에 담깁니다"
-              autoComplete="off"
-              required
-              className="h-11"
-            />
-            <Button type="submit" size="lg" className="gap-1">
+          <QuickForm action={createInboxItem} className="flex items-start gap-2">
+            <QuickInput placeholder="떠오른 것 — Inbox에 담깁니다 · URL/이미지 paste 가능" />
+            <Button type="submit" size="lg" className="shrink-0 gap-1">
               <Plus className="size-4" />
               담기
             </Button>
-          </form>
+          </QuickForm>
         </section>
 
         {/* 일정 (Phase 2 Google Calendar 연동 후) */}

@@ -1,6 +1,7 @@
 "use client";
 
 import { Calendar, Flag, Repeat, X } from "lucide-react";
+import { AutoLink } from "@/components/shared/auto-link";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -96,14 +97,14 @@ export function TaskRow({ item }: { item: TaskItem }) {
           item.priority < 4 && pri.border,
         )}
       />
-      <span
+      <div
         className={cn(
-          "flex-1 whitespace-pre-wrap break-words text-sm",
+          "flex-1 break-words text-sm",
           item.completed && "text-muted-foreground line-through",
         )}
       >
-        {item.body}
-      </span>
+        <AutoLink text={item.body} />
+      </div>
 
       {item.recurrence && (
         <span

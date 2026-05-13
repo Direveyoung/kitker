@@ -1,7 +1,8 @@
 import { Plus } from "lucide-react";
 import { requireUserId } from "@/lib/auth/dev-session";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { QuickForm } from "@/components/shared/quick-form";
+import { QuickInput } from "@/components/shared/quick-input";
 import { groupByRelativeTime } from "@/lib/items/grouping";
 import { createInboxItem } from "@/modules/inbox/actions";
 import { InboxRow } from "@/modules/inbox/components/inbox-row";
@@ -19,20 +20,19 @@ export default async function InboxPage() {
           <h1 className="text-xl font-semibold tracking-tight">📥 Inbox</h1>
           <span className="text-xs text-muted-foreground">({items.length})</span>
         </div>
-        <form action={createInboxItem} className="mx-auto mt-3 flex max-w-3xl gap-2">
-          <Input
-            name="body"
-            placeholder="떠오른 생각을 그냥 던지세요"
-            autoComplete="off"
+        <QuickForm
+          action={createInboxItem}
+          className="mx-auto mt-3 flex max-w-3xl items-start gap-2"
+        >
+          <QuickInput
+            placeholder="떠오른 생각을 그냥 던지세요 · URL/이미지 paste 가능"
             autoFocus
-            required
-            className="h-11 text-base"
           />
-          <Button type="submit" size="lg" className="gap-1">
+          <Button type="submit" size="lg" className="shrink-0 gap-1">
             <Plus className="size-4" />
             담기
           </Button>
-        </form>
+        </QuickForm>
       </header>
 
       <div className="mx-auto w-full max-w-3xl flex-1 overflow-auto p-4 sm:p-6">

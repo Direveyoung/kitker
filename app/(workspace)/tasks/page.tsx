@@ -1,7 +1,8 @@
 import { Plus } from "lucide-react";
 import { requireUserId } from "@/lib/auth/dev-session";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { QuickForm } from "@/components/shared/quick-form";
+import { QuickInput } from "@/components/shared/quick-input";
 import { carryOverTasks, createTask } from "@/modules/tasks/actions";
 import { TaskRow } from "@/modules/tasks/components/task-row";
 import { getAllTasks } from "@/modules/tasks/queries";
@@ -22,19 +23,16 @@ export default async function TasksPage() {
             {pending.length}개 남음
           </span>
         </div>
-        <form action={createTask} className="mx-auto mt-3 flex max-w-3xl gap-2">
-          <Input
-            name="body"
-            placeholder='+ 할 일 — "내일 오후 3시 회의", "매주 월요일 보고" 같이 입력'
-            autoComplete="off"
-            required
-            className="h-11 text-base"
-          />
-          <Button type="submit" size="lg" className="gap-1">
+        <QuickForm
+          action={createTask}
+          className="mx-auto mt-3 flex max-w-3xl items-start gap-2"
+        >
+          <QuickInput placeholder='+ 할 일 — "내일 오후 3시 회의", "매주 월요일 보고", URL·이미지 paste' />
+          <Button type="submit" size="lg" className="shrink-0 gap-1">
             <Plus className="size-4" />
             추가
           </Button>
-        </form>
+        </QuickForm>
       </header>
 
       <div className="mx-auto w-full max-w-3xl flex-1 overflow-auto p-4 sm:p-6">
