@@ -1,0 +1,171 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ─────────────────────────────────────────────── */
+/*  Light · Petals                                */
+/* ─────────────────────────────────────────────── */
+:root,
+html.light {
+  --bg-page: #faf7f2;
+  --bg-surface: #ffffff;
+  --bg-elevated: #f9f6ef;
+  --bg-muted: #f0ede5;
+  --border: #e5dfd3;
+  --border-strong: #d4ccb8;
+  --text-primary: #2a2826;
+  --text-secondary: #6b6660;
+  --text-tertiary: #a39e96;
+
+  /* Petals 멀티 */
+  --petal-yellow-bg: #fbf4d9;
+  --petal-yellow-text: #6b5a1a;
+  --petal-yellow-accent: #c9a227;
+
+  --petal-pink-bg: #fce4ec;
+  --petal-pink-text: #7a2d4d;
+  --petal-pink-accent: #c25577;
+
+  --petal-purple-bg: #e8e0f4;
+  --petal-purple-text: #3d2e66;
+  --petal-purple-accent: #7b66b5;
+
+  --petal-blue-bg: #dcedf7;
+  --petal-blue-text: #1f5c85;
+  --petal-blue-accent: #5c8db5;
+
+  /* 액션 */
+  --accent: #7b66b5;
+  --accent-soft: #e8e0f4;
+  --accent-deep: #5e4a8c;
+  --warm: #c97b5c;
+  --amber: #d4a04a;
+  --danger: #c25577;
+  --success: #7ba68e;
+}
+
+/* ─────────────────────────────────────────────── */
+/*  Dark · Velvet Night                           */
+/* ─────────────────────────────────────────────── */
+html.dark {
+  --bg-page: #0f1419;
+  --bg-surface: #1a1f2a;
+  --bg-elevated: #242938;
+  --bg-muted: #2a2f3a;
+  --border: #2a2f3a;
+  --border-strong: #3d4453;
+  --text-primary: #e8e4dd;
+  --text-secondary: #9ca3af;
+  --text-tertiary: #7a8499;
+
+  --petal-yellow-bg: #2e2a1c;
+  --petal-yellow-text: #e8d894;
+  --petal-yellow-accent: #d4b896;
+
+  --petal-pink-bg: #2e1f26;
+  --petal-pink-text: #e8b3cc;
+  --petal-pink-accent: #c58fab;
+
+  --petal-purple-bg: #25204d;
+  --petal-purple-text: #c9c0e8;
+  --petal-purple-accent: #9f8fd4;
+
+  --petal-blue-bg: #1a2a3d;
+  --petal-blue-text: #b3d4e8;
+  --petal-blue-accent: #8faec9;
+
+  --accent: #d4b896;
+  --accent-soft: #2a2519;
+  --accent-deep: #b89977;
+  --warm: #c97b5c;
+  --amber: #d4a04a;
+  --danger: #e5837f;
+  --success: #8faec9;
+}
+
+@theme inline {
+  --color-bg-page: var(--bg-page);
+  --color-bg-surface: var(--bg-surface);
+  --color-bg-elevated: var(--bg-elevated);
+  --color-bg-muted: var(--bg-muted);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-tertiary: var(--text-tertiary);
+
+  --color-petal-yellow-bg: var(--petal-yellow-bg);
+  --color-petal-yellow-text: var(--petal-yellow-text);
+  --color-petal-yellow-accent: var(--petal-yellow-accent);
+  --color-petal-pink-bg: var(--petal-pink-bg);
+  --color-petal-pink-text: var(--petal-pink-text);
+  --color-petal-pink-accent: var(--petal-pink-accent);
+  --color-petal-purple-bg: var(--petal-purple-bg);
+  --color-petal-purple-text: var(--petal-purple-text);
+  --color-petal-purple-accent: var(--petal-purple-accent);
+  --color-petal-blue-bg: var(--petal-blue-bg);
+  --color-petal-blue-text: var(--petal-blue-text);
+  --color-petal-blue-accent: var(--petal-blue-accent);
+
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-deep: var(--accent-deep);
+  --color-warm: var(--warm);
+  --color-amber: var(--amber);
+  --color-danger: var(--danger);
+  --color-success: var(--success);
+
+  --color-background: var(--bg-page);
+  --color-foreground: var(--text-primary);
+  --color-card: var(--bg-surface);
+  --color-card-foreground: var(--text-primary);
+  --color-popover: var(--bg-surface);
+  --color-popover-foreground: var(--text-primary);
+  --color-primary: var(--accent);
+  --color-primary-foreground: #ffffff;
+  --color-secondary: var(--bg-elevated);
+  --color-secondary-foreground: var(--text-primary);
+  --color-muted: var(--bg-muted);
+  --color-muted-foreground: var(--text-secondary);
+  --color-accent-foreground: var(--text-primary);
+  --color-destructive: var(--danger);
+  --color-destructive-foreground: #ffffff;
+  --color-input: var(--border);
+  --color-ring: var(--accent);
+
+  --font-sans: var(--font-pretendard), -apple-system, BlinkMacSystemFont,
+    system-ui, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+  --font-serif: var(--font-noto-serif-kr), ui-serif, Georgia, serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+}
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    border-color: var(--border);
+  }
+  body {
+    background-color: var(--bg-page);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  ::selection {
+    background-color: var(--accent-soft);
+    color: var(--accent-deep);
+  }
+}
