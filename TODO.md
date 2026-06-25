@@ -21,7 +21,7 @@
 - [ ] 메모 에디터 (Lexical 블록 10종 + 슬래시 명령, 1초 debounce auto-save, 5분 debounce 버전 스냅샷)
 - [ ] 메모 속성 패널 (일정/할일 토글)
 - [ ] Today (날짜 + 발리/서울 듀얼 시계 + 진행률 + 시집 한 줄 + 일정/할일/universal capture)
-- [ ] Calendar (월/주/일 뷰, petal-yellow)
+- [x] Calendar (월/주/일 뷰 + 미니월력 + 내 캘린더 토글 + 일정 CRUD + ICS 피드) ✅ 2026-06-25
 - [ ] 할 일 (멀티뷰 리스트/보드/캘린더, petal-pink)
 - [ ] 검색 ⌘K (pg_trgm)
 - [ ] 캡처 ⌘N (자연어 인식)
@@ -38,6 +38,11 @@
 - [ ] CHANGELOG.md "v3.1.0 Phase 1 완료"
 
 ---
+
+## Calendar 다음 (우선)
+- [ ] 드래그로 일정 이동/리사이즈 + 드래그 생성 (구글캘린더식)
+- [ ] 반복 일정 (recurrence: 매주/매월) + ICS RRULE 출력
+- [ ] Today 홈화면 실제 구현 (오늘 일정/할일 한 화면)
 
 ## Phase 2 — 외부 연동 + 자동화
 - [ ] ClickUp 양방향 동기화 (cron 30분)

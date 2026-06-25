@@ -33,8 +33,8 @@ Tailwind v4 + shadcn/ui (base-stone)
 Pretendard Variable + Noto Serif KR + JetBrains Mono
 Lexical 에디터 (블록 + 슬래시)
 next-themes (Petals/Velvet/System 3-way)
-Neon Postgres + Drizzle ORM
-Vercel 배포 (main push → 자동)
+SQLite (better-sqlite3) + Drizzle ORM   ← Neon 폐기, toy2 셀프호스팅, 별도 DB 서비스 X
+toy2 셀프호스팅 (next start)   ← Vercel 폐기
 PWA: next-pwa
 Auth.js v5 — Phase 4에서 부활. Phase 1~3은 dev user 하드코딩
 ```

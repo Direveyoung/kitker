@@ -40,3 +40,9 @@ next-env.d.ts
 # 백업
 backup_*.json
 backup_*.sql
+
+# SQLite (toy2 셀프호스팅 로컬 DB)
+/data
+*.db
+*.db-wal
+*.db-shm
