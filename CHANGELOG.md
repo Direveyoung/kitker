@@ -1,5 +1,16 @@
 # 📝 CHANGELOG
 
+## [정리] — 2026-06-26 · dead code 전수 정리
+
+### Removed
+- `backup_v1_2026-05-12.json` (archive 브랜치에 보존, 0 참조)
+- `proxy.ts` — Next는 `middleware.ts`만 인식 → 실행 안 되는 no-op dead code (Phase 4에서 middleware로 재작성)
+- `public/{file,globe,next,vercel,window}.svg` — Next 기본 스캐폴드 SVG, 0 참조
+- 의존성 `@neondatabase/serverless` — SQLite 전환 후 미사용
+- 진행현황 문서 동기화 (TODO/CHANGELOG ↔ 실제 코드)
+
+---
+
 ## [v3.1.1] — 2026-06-25 · Calendar (구글캘린더 패리티)
 
 ### Added
@@ -14,6 +25,21 @@
 - **DB: Neon Postgres → SQLite** (better-sqlite3 + Drizzle). 별도 DB 서비스 불필요, toy2 셀프호스팅.
 - 배포 전제: Vercel → toy2 (`next start`)
 - `.env.example` / `.gitignore` SQLite 기준으로 정리
+
+---
+
+## [Phase 1 BEFORE_CODE] — 2026-05-25 · 스캐폴드 (commit b778dbe)
+
+### Added
+- Next.js 15.5.18 (App Router, Turbopack) + React 19.1 + TS 스캐폴드
+- 디자인 시스템: `globals.css` Petals + Velvet Night 토큰 (4색 petal, light/dark, @theme inline)
+- 타이포: Pretendard Variable (next/font/local) + Noto Serif KR
+- Shell: theme-provider / theme-toggle (3-way) / sidebar (240↔60 collapse, ⌘1~⌘4·⌘K·⌘N) / top-bar
+- 라우트: / → /today redirect, /today /calendar /tasks /pages placeholder
+- 인증: `lib/auth/dev-session.ts` (EVE_DEV_USER_ID), `proxy.ts` (EVE_AUTH_ENABLED=false 우회)
+- PWA: `public/manifest.json`
+
+---
 
 ## [v3.1.0] — 2026-05-12
 

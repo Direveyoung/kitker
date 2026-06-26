@@ -5,18 +5,18 @@
 ### BEFORE_CODE
 - [x] Step 0: 기존 코드 삭제 + archive 백업
 - [x] KICK_OFF.md / CLAUDE.md / CHANGELOG.md / TODO.md 초기 작성
-- [ ] DB 초기화 (Neon 콘솔에서 기존 DB 삭제 + 새 DB 생성) — **영아 이사 액션**
-- [ ] Vercel 환경변수 정리 (DATABASE_URL, EVE_DEV_USER_ID, EVE_AUTH_ENABLED, NEXT_PUBLIC_APP_URL만)
-- [ ] Next.js 15 스캐폴드 (create-next-app)
-- [ ] Tailwind v4 + shadcn/ui (base-stone)
-- [ ] Pretendard Variable + Noto Serif KR (next/font/local)
-- [ ] globals.css에 Petals + Velvet Night 토큰 적용
-- [ ] next-themes 설치 + ThemeProvider 셋업
-- [ ] PWA 셋업 (manifest, sw)
-- [ ] Drizzle + Neon 연결 + 마이그레이션 0001
+- [x] DB: ~~Neon~~ → **SQLite** (better-sqlite3 + Drizzle, toy2 셀프호스팅) — 별도 DB 서비스 불필요
+- [x] 배포 전제: ~~Vercel~~ → toy2 (`next start`)
+- [x] Next.js 15 스캐폴드 (15.5.18, App Router, Turbopack)
+- [x] Tailwind v4 + 의존성 (cva/clsx/tailwind-merge — shadcn 컴포넌트는 필요 시 추가)
+- [x] Pretendard Variable + Noto Serif KR (next/font/local)
+- [x] globals.css에 Petals + Velvet Night 토큰 적용 (4색 petal, light/dark)
+- [x] next-themes 설치 + ThemeProvider 셋업
+- [~] PWA 셋업 (manifest ✓ / sw 미구현)
+- [x] Drizzle + SQLite 연결 + 스키마/시드 (`lib/db/*`)
 
 ### 개발 순서
-- [ ] Shell + 테마 토글 (라이트/다크/시스템 3-way, top-bar 우상단)
+- [x] Shell + 테마 토글 (라이트/다크/시스템 3-way, top-bar 우상단) — 사이드바 240↔60 collapse, ⌘1~⌘4 / ⌘K / ⌘N 단축키
 - [ ] 메모 트리 (중첩, 펼치기/접기, 드래그 정렬, 새/하위 메모, 삭제, 이름·아이콘)
 - [ ] 메모 에디터 (Lexical 블록 10종 + 슬래시 명령, 1초 debounce auto-save, 5분 debounce 버전 스냅샷)
 - [ ] 메모 속성 패널 (일정/할일 토글)
