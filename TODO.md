@@ -41,7 +41,7 @@
 
 ## 후순위 개선
 - [x] 메모 트리 드래그 정렬/이동 (before/after/child + 자손 가드) ✅ 2026-06-26
-- [ ] Tasks 캘린더 뷰
+- [x] Tasks 캘린더 뷰 (월 그리드, dueAt 기준 pink 칩) ✅ 2026-06-26
 - [ ] 블록 에디터 Lexical 전환
 
 ## Calendar 다음 (우선)

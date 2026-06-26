@@ -2,15 +2,29 @@
 
 import { useMemo, useOptimistic, useRef, useState, useTransition } from "react";
 import Link from "next/link";
-import { CheckCircle2, Circle, LayoutGrid, List, Plus } from "lucide-react";
+import {
+  CalendarDays,
+  CheckCircle2,
+  ChevronLeft,
+  ChevronRight,
+  Circle,
+  LayoutGrid,
+  List,
+  Plus,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { TodoDTO } from "@/lib/today/queries";
 import { createTodo, toggleTodo } from "@/lib/today/actions";
 import {
+  format,
   formatDue,
   isDueToday,
   isOverdue,
+  isSameDay,
+  monthMatrix,
   parseDateKey,
+  shift,
+  WEEKDAYS_KO,
 } from "@/lib/calendar/date";
 
 type Bucket = "overdue" | "today" | "upcoming" | "none" | "done";
@@ -24,7 +38,7 @@ const BUCKETS: { key: Bucket; label: string; tone: string }[] = [
 ];
 
 export function TasksView({ todos }: { todos: TodoDTO[] }) {
-  const [view, setView] = useState<"list" | "board">("list");
+  const [view, setView] = useState<"list" | "board" | "calendar">("list");
 
   const grouped = useMemo(() => {
     const g: Record<Bucket, TodoDTO[]> = {
@@ -49,6 +63,7 @@ export function TasksView({ todos }: { todos: TodoDTO[] }) {
         <div className="flex items-center gap-1 rounded-md border border-border p-0.5">
           <ViewBtn on={view === "list"} onClick={() => setView("list")} icon={<List className="size-4" />} label="목록" />
           <ViewBtn on={view === "board"} onClick={() => setView("board")} icon={<LayoutGrid className="size-4" />} label="보드" />
+          <ViewBtn on={view === "calendar"} onClick={() => setView("calendar")} icon={<CalendarDays className="size-4" />} label="캘린더" />
         </div>
       </header>
 
@@ -56,6 +71,8 @@ export function TasksView({ todos }: { todos: TodoDTO[] }) {
 
       {todos.length === 0 ? (
         <Empty>할 일이 없어요. 위에서 추가하거나 메모에서 “할 일” 속성을 켜보세요.</Empty>
+      ) : view === "calendar" ? (
+        <MonthCalendar todos={todos} />
       ) : view === "list" ? (
         <div className="flex flex-col gap-5">
           {BUCKETS.map((b) =>
@@ -200,6 +217,89 @@ function TaskCard({ todo }: { todo: TodoDTO }) {
         {todo.title}
       </Link>
     </li>
+  );
+}
+
+function MonthCalendar({ todos }: { todos: TodoDTO[] }) {
+  const [cursor, setCursor] = useState(() => new Date());
+  const weeks = useMemo(() => monthMatrix(cursor), [cursor]);
+  const month = cursor.getMonth();
+
+  const dated = useMemo(
+    () => todos.filter((t) => t.dueAt).map((t) => ({ t, d: parseDateKey(t.dueAt!) })),
+    [todos],
+  );
+  const noDue = todos.filter((t) => !t.dueAt).length;
+
+  return (
+    <div className="flex flex-col gap-2">
+      <div className="flex items-center justify-between">
+        <h2 className="text-sm font-semibold text-text-primary">{format(cursor, "yyyy년 M월")}</h2>
+        <div className="flex items-center gap-1">
+          <button type="button" onClick={() => setCursor((d) => shift("month", d, -1))} className="rounded p-1 text-text-tertiary hover:bg-bg-muted hover:text-text-primary">
+            <ChevronLeft className="size-4" />
+          </button>
+          <button type="button" onClick={() => setCursor(new Date())} className="rounded px-2 py-1 text-xs text-text-secondary hover:bg-bg-muted">
+            오늘
+          </button>
+          <button type="button" onClick={() => setCursor((d) => shift("month", d, 1))} className="rounded p-1 text-text-tertiary hover:bg-bg-muted hover:text-text-primary">
+            <ChevronRight className="size-4" />
+          </button>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-7 border-l border-t border-border">
+        {WEEKDAYS_KO.map((w) => (
+          <div key={w} className="border-b border-r border-border bg-bg-elevated px-2 py-1 text-center text-xs text-text-tertiary">
+            {w}
+          </div>
+        ))}
+        {weeks.flat().map((day) => {
+          const items = dated.filter((x) => isSameDay(x.d, day));
+          const inMonth = day.getMonth() === month;
+          const today = isSameDay(day, new Date());
+          return (
+            <div
+              key={day.toISOString()}
+              className={cn(
+                "min-h-[88px] border-b border-r border-border p-1",
+                !inMonth && "bg-bg-page/40",
+              )}
+            >
+              <div className={cn(
+                "mb-1 text-right text-xs",
+                today ? "font-bold text-accent" : inMonth ? "text-text-secondary" : "text-text-tertiary",
+              )}>
+                {day.getDate()}
+              </div>
+              <div className="flex flex-col gap-0.5">
+                {items.slice(0, 3).map(({ t }) => (
+                  <Link
+                    key={t.id}
+                    href={`/pages/${t.id}`}
+                    title={t.title}
+                    className={cn(
+                      "truncate rounded px-1 py-0.5 text-[11px]",
+                      "bg-petal-pink-bg text-petal-pink-text",
+                      t.done && "line-through opacity-60",
+                    )}
+                  >
+                    {t.title}
+                  </Link>
+                ))}
+                {items.length > 3 && (
+                  <span className="px-1 text-[10px] text-text-tertiary">+{items.length - 3}</span>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {noDue > 0 && (
+        <p className="text-xs text-text-tertiary">마감 없는 할 일 {noDue}개는 목록 뷰에서 확인하세요.</p>
+      )}
+    </div>
   );
 }
 
