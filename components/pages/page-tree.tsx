@@ -3,9 +3,12 @@
 import { useState, useTransition } from "react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
-import { ChevronRight, FileText, Plus, Trash2 } from "lucide-react";
+import { ChevronRight, FileText, GripVertical, Plus, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { createPage, deletePage } from "@/lib/pages/actions";
+import { createPage, deletePage, movePage } from "@/lib/pages/actions";
+
+type Zone = "before" | "after" | "child";
+const DND_MIME = "application/x-eveworks-page";
 import type { PageNode } from "@/lib/pages/types";
 
 export function PageTree({ nodes }: { nodes: PageNode[] }) {
@@ -54,8 +57,38 @@ function TreeRow({ node, depth }: { node: PageNode; depth: number }) {
   const params = useParams<{ id?: string }>();
   const active = params?.id === node.id;
   const [open, setOpen] = useState(false);
+  const [zone, setZone] = useState<Zone | null>(null);
   const [, start] = useTransition();
   const hasChildren = node.children.length > 0;
+
+  function onDragStart(e: React.DragEvent) {
+    e.dataTransfer.setData(DND_MIME, node.id);
+    e.dataTransfer.effectAllowed = "move";
+  }
+
+  function onDragOver(e: React.DragEvent) {
+    if (!e.dataTransfer.types.includes(DND_MIME)) return;
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "move";
+    const r = e.currentTarget.getBoundingClientRect();
+    const ratio = (e.clientY - r.top) / r.height;
+    setZone(ratio < 0.25 ? "before" : ratio > 0.75 ? "after" : "child");
+  }
+
+  function onDrop(e: React.DragEvent) {
+    if (!e.dataTransfer.types.includes(DND_MIME)) return;
+    e.preventDefault();
+    e.stopPropagation();
+    const draggedId = e.dataTransfer.getData(DND_MIME);
+    const position = zone ?? "child";
+    setZone(null);
+    if (!draggedId || draggedId === node.id) return;
+    start(async () => {
+      const res = await movePage({ id: draggedId, targetId: node.id, position });
+      if (res.ok && position === "child") setOpen(true);
+      router.refresh();
+    });
+  }
 
   function addChild(e: React.MouseEvent) {
     e.preventDefault();
@@ -82,12 +115,26 @@ function TreeRow({ node, depth }: { node: PageNode; depth: number }) {
   return (
     <li>
       <div
+        onDragOver={onDragOver}
+        onDragLeave={() => setZone(null)}
+        onDrop={onDrop}
         className={cn(
-          "group flex items-center gap-1 rounded-md pr-1 text-sm",
+          "group flex items-center gap-0.5 rounded-md pr-1 text-sm",
           active ? "bg-accent-soft text-accent-deep" : "hover:bg-bg-muted",
+          zone === "child" && "ring-1 ring-inset ring-accent",
+          zone === "before" && "shadow-[inset_0_2px_0_0_var(--accent)]",
+          zone === "after" && "shadow-[inset_0_-2px_0_0_var(--accent)]",
         )}
         style={{ paddingLeft: `${depth * 12 + 4}px` }}
       >
+        <span
+          draggable
+          onDragStart={onDragStart}
+          title="드래그로 이동"
+          className="shrink-0 cursor-grab rounded p-0.5 text-text-tertiary opacity-0 hover:text-text-primary group-hover:opacity-100 active:cursor-grabbing"
+        >
+          <GripVertical className="size-3.5" />
+        </span>
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
