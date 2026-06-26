@@ -1,5 +1,21 @@
 # 📝 CHANGELOG
 
+## [v3.1.5] — 2026-06-26 · ⌘N 자연어 캡처
+
+### Added
+- 빠른 캡처 모달 (`components/shell/capture-bar.tsx`) — ⌘N / 사이드바 버튼
+  - 한국어 자연어 파서 `lib/capture/parse.ts`:
+    오늘/내일/모레/글피, N요일(이번주/다음주), M월 D일, M/D,
+    오전·오후 N시(반/N분), HH:mm 인식
+  - 메모/할일/일정 자동 분류 + 칩으로 수동 오버라이드, 실시간 프리뷰
+  - 확정 시 createPage/createTodo/createEvent로 분기 저장
+
+### Changed
+- ⌘N: 빈 메모 생성 → 자연어 캡처 모달로 변경
+- 사이드바 "새 메모" 버튼 → "빠른 캡처" (트리 +버튼은 여전히 빈 메모 생성)
+
+---
+
 ## [v3.1.4] — 2026-06-26 · Tasks 뷰 + ⌘K 검색
 
 ### Added

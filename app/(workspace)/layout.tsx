@@ -2,6 +2,7 @@ import { Sidebar } from "@/components/shell/sidebar";
 import { TopBar } from "@/components/shell/top-bar";
 import { PageTreeData } from "@/components/pages/page-tree-data";
 import { CommandBar } from "@/components/shell/command-bar";
+import { CaptureBar } from "@/components/shell/capture-bar";
 
 export default function WorkspaceLayout({
   children,
@@ -16,6 +17,7 @@ export default function WorkspaceLayout({
         <main className="flex-1 overflow-auto">{children}</main>
       </div>
       <CommandBar />
+      <CaptureBar />
     </div>
   );
 }
