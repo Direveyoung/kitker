@@ -50,13 +50,14 @@
 - [ ] 반복 일정 (recurrence: 매주/매월) + ICS RRULE 출력
 - [x] Today 홈화면 실제 구현 (오늘 일정/할일 한 화면) ✅ 2026-06-26
 
-## Phase 2 — 외부 연동 + 자동화
-- [ ] ClickUp 양방향 동기화 (cron 30분)
-- [ ] 구글 캘린더 양방향 OAuth
+## Phase 2 — 외부 연동 + 자동화 (범위 확정 2026-06-26: 구글캘린더 + 이메일만)
 - [x] 클로이 챗 (Anthropic Tool Use — 메모/할일/일정 생성·검색·조회, 사이드 패널) ✅ 2026-06-26 *ANTHROPIC_API_KEY 런타임 필요*
-- [ ] 시멘틱 검색 (pgvector 하이브리드)
-- [ ] 노션 DB view (filter/sort/group)
-- [ ] 메일 통합 검토
+- [ ] 구글 캘린더 양방향 OAuth (events ↔ pages)
+- [ ] 이메일 통합 — Gmail + Outlook(Microsoft 365)
+- [ ] 클로이가 캘린더/메일도 다루도록 도구 확장
+
+### 제외 (안 함)
+- ~~ClickUp 동기화~~ · ~~노션 DB view~~ · ~~시멘틱 검색~~
 
 ## Phase 3 — 라이프 + 시집
 - [ ] 시집 special view (Noto Serif KR, A/B/C 3컬럼)
