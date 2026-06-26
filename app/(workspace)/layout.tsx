@@ -3,6 +3,7 @@ import { TopBar } from "@/components/shell/top-bar";
 import { PageTreeData } from "@/components/pages/page-tree-data";
 import { CommandBar } from "@/components/shell/command-bar";
 import { CaptureBar } from "@/components/shell/capture-bar";
+import { ImportDialog } from "@/components/shell/import-dialog";
 
 export default function WorkspaceLayout({
   children,
@@ -18,6 +19,7 @@ export default function WorkspaceLayout({
       </div>
       <CommandBar />
       <CaptureBar />
+      <ImportDialog />
     </div>
   );
 }

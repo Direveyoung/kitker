@@ -7,6 +7,7 @@ import {
   CheckSquare,
   FilePlus,
   FileText,
+  FileUp,
   Search,
   Sun,
 } from "lucide-react";
@@ -94,6 +95,16 @@ export function CommandBar() {
           router.push(`/pages/${id}`);
           router.refresh();
         });
+      },
+    },
+    {
+      key: "import",
+      icon: <FileUp className="size-4" />,
+      label: "마크다운 가져오기",
+      hint: "노션·애플메모",
+      run: () => {
+        setOpen(false);
+        window.dispatchEvent(new CustomEvent("eveworks:open-import"));
       },
     },
   ];

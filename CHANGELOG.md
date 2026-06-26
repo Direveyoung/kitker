@@ -1,5 +1,17 @@
 # 📝 CHANGELOG
 
+## [v3.1.6] — 2026-06-26 · 마크다운 임포트
+
+### Added
+- 마크다운 파서 `lib/import/markdown.ts`: 제목(첫 H1) · 헤딩 · 체크박스 todo ·
+  인용 · 코드펜스 · 구분선 · 리스트(불릿 문단) · 인라인기호 제거
+- 임포트 다이얼로그 `components/shell/import-dialog.tsx`: .md 다중 파일 업로드 +
+  붙여넣기 → 페이지 생성 후 이동
+- `lib/import/actions.ts` (importMarkdown)
+- ⌘K 커맨드바에 "마크다운 가져오기" 항목
+
+---
+
 ## [v3.1.5] — 2026-06-26 · ⌘N 자연어 캡처
 
 ### Added
