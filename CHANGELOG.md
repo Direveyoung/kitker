@@ -1,5 +1,24 @@
 # 📝 CHANGELOG
 
+## [v3.1.3] — 2026-06-26 · 메모 트리 + 블록 에디터
+
+### Added
+- 메모 트리 (사이드바): 무한 중첩 · 펼치기/접기 · 새/하위 메모 · 삭제(자손 소프트삭제) · 아이콘
+  - `components/pages/page-tree.tsx` (client) + `page-tree-data.tsx` (server 주입)
+- 블록 에디터 `/pages/[id]` (`components/pages/page-editor.tsx`)
+  - 블록 6종: paragraph / heading(1~3) / todo / quote / code / divider
+  - 슬래시(`/`) 명령 메뉴, caret 분할 Enter, Backspace 병합, 자동 높이
+  - 제목·아이콘 인라인 편집, 1초 debounce auto-save ("저장됨" 표시)
+  - 속성 토글 칩(할 일/일정) → 글로벌 뷰 노출
+- `lib/pages/{types,queries,actions}.ts`: getPageTree/getPage, create/rename/setIcon/updateBlocks/togglePageProperty/delete
+- `/pages` 인덱스 = 빈 상태 + "새 메모 만들기"
+
+### Changed
+- 사이드바 "새 메모" 버튼 + ⌘N → 페이지 생성 후 바로 이동
+- layout이 메모 트리(server)를 사이드바에 주입
+
+---
+
 ## [v3.1.2] — 2026-06-26 · Today 홈
 
 ### Added

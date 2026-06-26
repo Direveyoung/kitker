@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useTransition } from "react";
+import { createPage } from "@/lib/pages/actions";
 import {
   Calendar,
   CheckSquare,
@@ -51,11 +52,20 @@ const NAV: NavItem[] = [
 
 const STORAGE_KEY = "eveworks:sidebar:collapsed";
 
-export function Sidebar() {
+export function Sidebar({ tree }: { tree?: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
   const [collapsed, setCollapsed] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [, startNew] = useTransition();
+
+  function newPage() {
+    startNew(async () => {
+      const { id } = await createPage({});
+      router.push(`/pages/${id}`);
+      router.refresh();
+    });
+  }
 
   useEffect(() => {
     setMounted(true);
@@ -72,6 +82,15 @@ export function Sidebar() {
     function onKey(e: KeyboardEvent) {
       if (!(e.metaKey || e.ctrlKey)) return;
       const k = e.key;
+      if (k.toLowerCase() === "n") {
+        e.preventDefault();
+        startNew(async () => {
+          const { id } = await createPage({});
+          router.push(`/pages/${id}`);
+          router.refresh();
+        });
+        return;
+      }
       if (/^[1-9]$/.test(k)) {
         const idx = parseInt(k, 10) - 1;
         if (idx < NAV.length) {
@@ -139,7 +158,7 @@ export function Sidebar() {
             collapsed ? "size-9 justify-center p-0" : "w-full",
           )}
           title="새 메모 (⌘N)"
-          onClick={() => router.push("/pages")}
+          onClick={newPage}
         >
           <Plus className="size-4 shrink-0" />
           {!collapsed && (
@@ -189,6 +208,8 @@ export function Sidebar() {
             active={isActive(pathname, item.href)}
           />
         ))}
+
+        {!collapsed && tree}
       </nav>
 
       <div

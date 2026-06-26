@@ -1,5 +1,6 @@
 import { Sidebar } from "@/components/shell/sidebar";
 import { TopBar } from "@/components/shell/top-bar";
+import { PageTreeData } from "@/components/pages/page-tree-data";
 
 export default function WorkspaceLayout({
   children,
@@ -8,7 +9,7 @@ export default function WorkspaceLayout({
 }) {
   return (
     <div className="flex h-screen overflow-hidden">
-      <Sidebar />
+      <Sidebar tree={<PageTreeData />} />
       <div className="flex min-w-0 flex-1 flex-col">
         <TopBar />
         <main className="flex-1 overflow-auto">{children}</main>
