@@ -1,5 +1,23 @@
 # 📝 CHANGELOG
 
+## [v3.1.7] — 2026-06-26 · PWA
+
+### Added
+- Service worker `public/sw.js`: 내비게이션 네트워크 우선 → `/offline` 폴백,
+  정적 자산 캐시 우선
+- `/offline` 폴백 페이지, SW 등록 컴포넌트 `components/pwa/sw-register.tsx` (prod 한정)
+- 앱 아이콘 `public/icon.svg` (maskable), 동적 apple-touch-icon `app/apple-icon.tsx` (next/og)
+
+### Changed
+- manifest 아이콘: 없던 PNG 참조 → `icon.svg` 단일 (svg+xml, any maskable)
+- 루트 layout에 SwRegister 마운트
+
+### Notes
+- 의존성 추가 없음 (next-pwa 미사용 — Turbopack 호환 위해 수동 SW)
+- 남은 검증: 실제 iPhone Safari 홈화면 추가 (영아 이사 디바이스 테스트)
+
+---
+
 ## [v3.1.6] — 2026-06-26 · 마크다운 임포트
 
 ### Added

@@ -26,7 +26,7 @@
 - [x] 검색 ⌘K (CommandBar — 제목+블록 본문 LIKE, 이동/새메모 명령) ✅ 2026-06-26 *pg_trgm 대신 SQLite LIKE*
 - [x] 캡처 ⌘N (자연어 인식 — 날짜/시각/요일 파싱 → 메모/할일/일정 자동 분류 + 오버라이드) ✅ 2026-06-26
 - [x] 마크다운 임포트 (노션/애플메모 export — .md 파일 다중/붙여넣기 → blocks 변환) ✅ 2026-06-26
-- [ ] PWA 완성 (오프라인 fallback)
+- [x] PWA 완성 (manifest + SVG/apple 아이콘 + service worker + /offline fallback) ✅ 2026-06-26
 
 ### AFTER_CODE
 - [ ] iPhone 13 Safari 정상

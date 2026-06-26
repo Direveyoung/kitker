@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { Noto_Serif_KR } from "next/font/google";
 import { ThemeProvider } from "@/components/theme/theme-provider";
+import { SwRegister } from "@/components/pwa/sw-register";
 import "./globals.css";
 
 const pretendard = localFont({
@@ -60,6 +61,7 @@ export default function RootLayout({
         >
           {children}
         </ThemeProvider>
+        <SwRegister />
       </body>
     </html>
   );
