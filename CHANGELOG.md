@@ -1,5 +1,21 @@
 # 📝 CHANGELOG
 
+## [v3.1.2] — 2026-06-26 · Today 홈
+
+### Added
+- Today 메인 뷰 (`components/today/today-view.tsx`)
+  - 발리/서울 듀얼 라이브 시계 (Intl timeZone, 1초 틱)
+  - 오늘 진행률 바 (완료/전체 할일)
+  - universal capture — 빠른 할 일 추가 (Enter)
+  - 오늘 일정 리스트 (캘린더 데이터 재사용) + 할 일 리스트 (낙관적 토글)
+- `lib/today/queries.ts` (getTodos) · `lib/today/actions.ts` (createTodo/toggleTodo)
+- 시드에 할 일 5건 추가 (마감 오늘/지남/없음/완료 케이스)
+
+### Changed
+- 캘린더 일정 CRUD 시 `/today`도 revalidate
+
+---
+
 ## [정리] — 2026-06-26 · dead code 전수 정리
 
 ### Removed

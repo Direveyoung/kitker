@@ -27,6 +27,7 @@ export async function createEvent(input: EventInput) {
     updatedAt: now,
   });
   revalidatePath("/calendar");
+  revalidatePath("/today");
   return { id };
 }
 
@@ -48,6 +49,7 @@ export async function updateEvent(input: EventInput) {
     .where(eq(schema.pages.id, input.id));
   void userId;
   revalidatePath("/calendar");
+  revalidatePath("/today");
   return { id: input.id };
 }
 
@@ -58,5 +60,6 @@ export async function deleteEvent(id: string) {
     .set({ deletedAt: new Date().toISOString() })
     .where(eq(schema.pages.id, id));
   revalidatePath("/calendar");
+  revalidatePath("/today");
   return { ok: true };
 }

@@ -54,7 +54,25 @@ async function main() {
       blocks: [], tags: [], createdAt: now, updatedAt: now, ...e,
     });
   }
-  console.log(`✅ seed 완료: 캘린더 ${cals.length}, 일정 ${events.length}`);
+
+  // 할 일 (Today 글로벌 뷰용)
+  const todos = [
+    { title: "디자인 리뷰 피드백 정리", dueAt: dateKey(0), todoDone: false },
+    { title: "클라이언트 인보이스 발송", dueAt: dateKey(0), todoDone: true },
+    { title: "분기 리포트 초안", dueAt: dateKey(-1), todoDone: false }, // 지난 마감
+    { title: "항공권 좌석 지정", dueAt: dateKey(2), todoDone: false },
+    { title: "독서 노트 옮기기", dueAt: null, todoDone: false }, // 마감 없음
+  ];
+  for (const t of todos) {
+    await db.insert(schema.pages).values({
+      id: randomUUID(), userId: USER_ID, calendarId: todo, hasTodo: true,
+      blocks: [], tags: [], createdAt: now, updatedAt: now, ...t,
+    });
+  }
+
+  console.log(
+    `✅ seed 완료: 캘린더 ${cals.length}, 일정 ${events.length}, 할일 ${todos.length}`,
+  );
 }
 
 main().then(() => process.exit(0)).catch((e) => { console.error(e); process.exit(1); });
