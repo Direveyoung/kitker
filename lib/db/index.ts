@@ -50,6 +50,21 @@ CREATE TABLE IF NOT EXISTS pages (
 );
 CREATE INDEX IF NOT EXISTS idx_pages_user_sched ON pages(user_id, has_schedule);
 CREATE INDEX IF NOT EXISTS idx_pages_user_todo ON pages(user_id, has_todo);
+CREATE TABLE IF NOT EXISTS push_subscriptions (
+  id TEXT PRIMARY KEY,
+  user_id TEXT NOT NULL,
+  endpoint TEXT NOT NULL UNIQUE,
+  p256dh TEXT NOT NULL,
+  auth TEXT NOT NULL,
+  created_at TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS reminders_sent (
+  id TEXT PRIMARY KEY,
+  page_id TEXT NOT NULL,
+  kind TEXT NOT NULL,
+  sent_at TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_reminders_page ON reminders_sent(page_id, kind);
 `);
 
 export const db = drizzle(sqlite, { schema });

@@ -2,6 +2,7 @@
 
 import { Sparkles } from "lucide-react";
 import { ThemeToggle } from "./theme-toggle";
+import { PushToggle } from "@/components/push/push-toggle";
 
 export function TopBar() {
   return (
@@ -19,6 +20,7 @@ export function TopBar() {
           <Sparkles className="size-3.5 text-accent" />
           클로이
         </button>
+        <PushToggle />
         <ThemeToggle />
       </div>
     </header>

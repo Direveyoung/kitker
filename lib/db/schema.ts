@@ -46,6 +46,25 @@ export const pages = sqliteTable("pages", {
   deletedAt: text("deleted_at"),
 });
 
+/** 웹푸시 구독 (기기별) */
+export const pushSubscriptions = sqliteTable("push_subscriptions", {
+  id: text("id").primaryKey(),
+  userId: text("user_id").notNull(),
+  endpoint: text("endpoint").notNull().unique(),
+  p256dh: text("p256dh").notNull(),
+  auth: text("auth").notNull(),
+  createdAt: text("created_at").notNull(),
+});
+
+/** 발송한 리마인더 기록 (중복 방지) */
+export const remindersSent = sqliteTable("reminders_sent", {
+  id: text("id").primaryKey(),
+  pageId: text("page_id").notNull(),
+  kind: text("kind").notNull(), // 'schedule' | 'todo'
+  sentAt: text("sent_at").notNull(),
+});
+
 export type Calendar = typeof calendars.$inferSelect;
 export type Page = typeof pages.$inferSelect;
 export type NewPage = typeof pages.$inferInsert;
+export type PushSubscription = typeof pushSubscriptions.$inferSelect;

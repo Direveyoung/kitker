@@ -54,6 +54,7 @@
 - [x] 클로이 챗 (Anthropic Tool Use — 메모/할일/일정 생성·검색·조회, 사이드 패널) ✅ 2026-06-26 *ANTHROPIC_API_KEY 런타임 필요*
 - [ ] 구글 캘린더 양방향 OAuth (events ↔ pages)
 - [ ] 이메일 통합 — Gmail + Outlook(Microsoft 365)
+- [x] 웹푸시 알림 (일정 임박 + 오늘 마감 할일, VAPID, cron) ✅ 2026-06-26
 - [ ] 클로이가 캘린더/메일도 다루도록 도구 확장
 
 ### 제외 (안 함)
