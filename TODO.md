@@ -34,8 +34,8 @@
 - [ ] 메모 100개 시드 후 검색 100ms 이내
 - [ ] PWA 홈화면 추가
 - [ ] Vercel 배포 완료
-- [ ] STATUS.md 업데이트
-- [ ] CHANGELOG.md "v3.1.0 Phase 1 완료"
+- [x] STATUS.md 업데이트 ✅ 2026-06-26
+- [x] CHANGELOG.md "v3.1.0 Phase 1 완료" ✅ 2026-06-26
 
 ---
 
