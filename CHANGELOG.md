@@ -1,5 +1,19 @@
 # 📝 CHANGELOG
 
+## [v3.1.4] — 2026-06-26 · Tasks 뷰 + ⌘K 검색
+
+### Added
+- Tasks 전용 뷰 (`components/tasks/tasks-view.tsx`)
+  - 목록(마감 그룹: 지난마감/오늘/예정/마감없음/완료) ↔ 보드 토글
+  - 빠른 추가, 완료 토글(낙관적), 각 항목 → 메모(/pages/[id]) 연결
+- ⌘K 커맨드바 (`components/shell/command-bar.tsx`)
+  - 메모 검색: 제목 + 블록 본문 LIKE, 스니펫 표시
+  - 빈 쿼리 시 이동 명령(Today/Calendar/Tasks/Pages/새 메모)
+  - 키보드 내비(↑↓/Enter/Esc), 사이드바 검색 버튼 이벤트 연결
+- `lib/search/actions.ts` (searchPages)
+
+---
+
 ## [v3.1.3] — 2026-06-26 · 메모 트리 + 블록 에디터
 
 ### Added

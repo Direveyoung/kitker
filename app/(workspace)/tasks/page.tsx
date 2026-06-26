@@ -1,11 +1,11 @@
-import { PagePlaceholder } from "@/components/shell/page-placeholder";
+import { requireUserId } from "@/lib/auth/dev-session";
+import { getTodos } from "@/lib/today/queries";
+import { TasksView } from "@/components/tasks/tasks-view";
 
-export default function TasksPage() {
-  return (
-    <PagePlaceholder
-      icon="✅"
-      title="Tasks"
-      description="멀티뷰 · has_todo 메모 — Phase 1 후반에 구현"
-    />
-  );
+export const dynamic = "force-dynamic";
+
+export default async function TasksPage() {
+  const userId = await requireUserId();
+  const todos = await getTodos(userId);
+  return <TasksView todos={todos} />;
 }
