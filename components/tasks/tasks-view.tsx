@@ -3,10 +3,15 @@
 import { useMemo, useOptimistic, useRef, useState, useTransition } from "react";
 import Link from "next/link";
 import { CheckCircle2, Circle, LayoutGrid, List, Plus } from "lucide-react";
-import { format, isToday, startOfDay } from "date-fns";
 import { cn } from "@/lib/utils";
 import type { TodoDTO } from "@/lib/today/queries";
 import { createTodo, toggleTodo } from "@/lib/today/actions";
+import {
+  formatDue,
+  isDueToday,
+  isOverdue,
+  parseDateKey,
+} from "@/lib/calendar/date";
 
 type Bucket = "overdue" | "today" | "upcoming" | "none" | "done";
 
@@ -207,29 +212,13 @@ function Empty({ children }: { children: React.ReactNode }) {
 }
 
 /* ── helpers ── */
-function parseDue(s: string): Date {
-  if (/^\d{4}-\d{2}-\d{2}$/.test(s)) {
-    const [y, m, d] = s.split("-").map(Number);
-    return new Date(y, m - 1, d);
-  }
-  return new Date(s);
-}
-function isOverdue(dueAt: string | null): boolean {
-  if (!dueAt) return false;
-  return startOfDay(parseDue(dueAt)).getTime() < startOfDay(new Date()).getTime();
-}
 function bucketOf(t: TodoDTO): Bucket {
   if (t.done) return "done";
   if (!t.dueAt) return "none";
   if (isOverdue(t.dueAt)) return "overdue";
-  if (isToday(parseDue(t.dueAt))) return "today";
+  if (isDueToday(t.dueAt)) return "today";
   return "upcoming";
 }
 function dueValue(t: TodoDTO): number {
-  return t.dueAt ? parseDue(t.dueAt).getTime() : Infinity;
-}
-function formatDue(dueAt: string): string {
-  const d = parseDue(dueAt);
-  if (isToday(d)) return "오늘";
-  return format(d, "M/d");
+  return t.dueAt ? parseDateKey(t.dueAt).getTime() : Infinity;
 }

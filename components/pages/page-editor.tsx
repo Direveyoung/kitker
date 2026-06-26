@@ -90,6 +90,17 @@ export function PageEditor({ page }: { page: PageDetail }) {
     }, 600);
   }
 
+  /* ── 언마운트(페이지 이동) 시 마지막 변경 flush + 타이머 정리 ── */
+  const latest = useRef({ blocks, title });
+  latest.current = { blocks, title };
+  useEffect(() => {
+    return () => {
+      if (titleTimer.current) clearTimeout(titleTimer.current);
+      updateBlocks(page.id, latest.current.blocks);
+      renamePage(page.id, latest.current.title);
+    };
+  }, [page.id]);
+
   const update = useCallback((id: string, patch: Partial<Block>) => {
     setBlocks((bs) => bs.map((b) => (b.id === id ? ({ ...b, ...patch } as Block) : b)));
   }, []);

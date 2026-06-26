@@ -2,9 +2,15 @@
 
 import { useEffect, useMemo, useOptimistic, useRef, useState, useTransition } from "react";
 import { CalendarDays, CheckCircle2, Circle, MapPin, Plus, Sun } from "lucide-react";
-import { format, isToday, startOfDay } from "date-fns";
+import { format } from "date-fns";
 import type { CalendarEvent } from "@/lib/calendar/types";
-import { eventBounds, eventsForDay } from "@/lib/calendar/date";
+import {
+  eventBounds,
+  eventsForDay,
+  formatDue,
+  isDueToday,
+  isOverdue,
+} from "@/lib/calendar/date";
 import { EVENT_CLASSES } from "@/components/calendar/colors";
 import type { TodoDTO } from "@/lib/today/queries";
 import { createTodo, toggleTodo } from "@/lib/today/actions";
@@ -264,30 +270,6 @@ function TodoRow({ todo }: { todo: TodoDTO }) {
 }
 
 /* ── 헬퍼 ────────────────────────────────────────── */
-function parseDue(s: string): Date {
-  if (/^\d{4}-\d{2}-\d{2}$/.test(s)) {
-    const [y, m, d] = s.split("-").map(Number);
-    return new Date(y, m - 1, d);
-  }
-  return new Date(s);
-}
-
-function isOverdue(dueAt: string | null): boolean {
-  if (!dueAt) return false;
-  return startOfDay(parseDue(dueAt)).getTime() < startOfDay(new Date()).getTime();
-}
-
-function isDueToday(dueAt: string | null): boolean {
-  if (!dueAt) return false;
-  return isToday(parseDue(dueAt));
-}
-
-function formatDue(dueAt: string): string {
-  const d = parseDue(dueAt);
-  if (isToday(d)) return "오늘";
-  return format(d, "M/d");
-}
-
 function splitTodos(todos: TodoDTO[]): { active: TodoDTO[]; doneToday: TodoDTO[] } {
   const active = todos
     .filter((t) => !t.done) // 미완료 전부 (마감 오늘/지남/없음)

@@ -69,6 +69,7 @@ export async function togglePageProperty(
   revalidatePath("/pages");
   revalidatePath("/today");
   revalidatePath("/tasks");
+  revalidatePath("/calendar");
   return { ok: true };
 }
 
@@ -102,5 +103,6 @@ export async function deletePage(id: string) {
   revalidatePath("/pages");
   revalidatePath("/today");
   revalidatePath("/tasks");
+  revalidatePath("/calendar");
   return { ok: true, count: toDelete.length };
 }

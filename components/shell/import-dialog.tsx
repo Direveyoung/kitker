@@ -33,26 +33,34 @@ export function ImportDialog() {
 
   function importFiles(files: FileList) {
     start(async () => {
-      let firstId: string | null = null;
-      for (const file of Array.from(files)) {
-        const md = await file.text();
-        const fallbackTitle = file.name.replace(/\.(md|markdown|txt)$/i, "");
-        const { id } = await importMarkdown({ markdown: md, fallbackTitle });
-        firstId ??= id;
+      try {
+        let firstId: string | null = null;
+        for (const file of Array.from(files)) {
+          const md = await file.text();
+          const fallbackTitle = file.name.replace(/\.(md|markdown|txt)$/i, "");
+          const { id } = await importMarkdown({ markdown: md, fallbackTitle });
+          firstId ??= id;
+        }
+        setOpen(false);
+        if (firstId) router.push(`/pages/${firstId}`);
+        router.refresh();
+      } catch {
+        alert("가져오기에 실패했어요. 파일을 확인해 주세요.");
       }
-      setOpen(false);
-      if (firstId) router.push(`/pages/${firstId}`);
-      router.refresh();
     });
   }
 
   function importText() {
     if (!text.trim()) return;
     start(async () => {
-      const { id } = await importMarkdown({ markdown: text });
-      setOpen(false);
-      router.push(`/pages/${id}`);
-      router.refresh();
+      try {
+        const { id } = await importMarkdown({ markdown: text });
+        setOpen(false);
+        router.push(`/pages/${id}`);
+        router.refresh();
+      } catch {
+        alert("가져오기에 실패했어요.");
+      }
     });
   }
 
@@ -91,6 +99,7 @@ export function ImportDialog() {
             className="hidden"
             onChange={(e) => {
               if (e.target.files?.length) importFiles(e.target.files);
+              e.target.value = ""; // 같은 파일 재선택 허용
             }}
           />
 

@@ -13,7 +13,11 @@ function at(dayOffset: number, h: number, m = 0): string {
 function dateKey(dayOffset: number): string {
   const d = new Date();
   d.setDate(d.getDate() + dayOffset);
-  return d.toISOString().slice(0, 10);
+  // 로컬 기준 YYYY-MM-DD (UTC slice 쓰면 +8/+9 TZ 새벽 실행 시 하루 밀림)
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
 }
 
 async function main() {

@@ -36,11 +36,19 @@ export function parseCapture(input: string, now = new Date()): Parsed {
   if (!date) {
     const wd = cut(/(이번주|다음주)?\s*([월화수목금토일])요일/);
     if (wd) {
-      const target = WEEKDAYS.indexOf(wd[2]);
-      const base = addDays(now, wd[1] === "다음주" ? 7 : 0);
-      let diff = (target - base.getDay() + 7) % 7;
-      if (diff === 0 && wd[1] !== "다음주") diff = 0; // 오늘 그 요일이면 오늘
-      date = atMidnight(addDays(base, diff));
+      const dow = now.getDay(); // 0=일
+      const targetDow = WEEKDAYS.indexOf(wd[2]); // 0=일
+      const offsetFromMon = (targetDow + 6) % 7; // 월=0 … 일=6
+      if (wd[1] === "다음주") {
+        const daysToNextMon = ((1 - dow + 7) % 7) || 7;
+        date = atMidnight(addDays(now, daysToNextMon + offsetFromMon));
+      } else if (wd[1] === "이번주") {
+        const daysToThisMon = -((dow + 6) % 7); // 이번 주 월요일까지(음수)
+        date = atMidnight(addDays(now, daysToThisMon + offsetFromMon));
+      } else {
+        const diff = (targetDow - dow + 7) % 7; // 다가오는 해당 요일(0=오늘)
+        date = atMidnight(addDays(now, diff));
+      }
     }
   }
 

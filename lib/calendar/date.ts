@@ -1,6 +1,6 @@
 import {
   addDays, addMonths, addWeeks, eachDayOfInterval, endOfMonth, endOfWeek,
-  format, isSameDay, startOfDay, startOfMonth, startOfWeek,
+  format, isSameDay, isToday, startOfDay, startOfMonth, startOfWeek,
 } from "date-fns";
 import type { CalendarEvent } from "./types";
 
@@ -46,12 +46,27 @@ export function eventBounds(e: CalendarEvent): { start: Date; end: Date } {
   return { start, end };
 }
 
-function parseDateKey(s: string): Date {
+export function parseDateKey(s: string): Date {
   if (/^\d{4}-\d{2}-\d{2}$/.test(s)) {
     const [y, m, d] = s.split("-").map(Number);
     return new Date(y, m - 1, d);
   }
   return new Date(s);
+}
+
+/* ── 할 일 마감(dueAt) 공용 헬퍼 — Today/Tasks 단일 소스 ── */
+export function isOverdue(dueAt: string | null): boolean {
+  if (!dueAt) return false;
+  return startOfDay(parseDateKey(dueAt)).getTime() < startOfDay(new Date()).getTime();
+}
+export function isDueToday(dueAt: string | null): boolean {
+  if (!dueAt) return false;
+  return isToday(parseDateKey(dueAt));
+}
+export function formatDue(dueAt: string): string {
+  const d = parseDateKey(dueAt);
+  if (isToday(d)) return "오늘";
+  return format(d, "M/d");
 }
 
 export function coversDay(e: CalendarEvent, day: Date): boolean {
