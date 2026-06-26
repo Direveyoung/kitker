@@ -1,5 +1,23 @@
 # 📝 CHANGELOG
 
+## [v3.2.0] — 2026-06-26 · 블록 에디터 Lexical 전환
+
+### Changed
+- 커스텀 textarea 블록 에디터 → **Lexical** (`components/pages/lexical-editor.tsx`)
+  - 저장 포맷 `blocks` JSON 계약 유지 → 검색/임포트/Today 무영향
+  - `lib/pages/lexical-blocks.ts`: Block[] ↔ Lexical 루트 직렬화 (헤드리스 라운드트립 검증)
+  - 마크다운 단축(# 제목, > 인용, ``` 코드, - [ ] 체크리스트) + 인라인 서식(**굵게**/*기울임*/`코드`)
+  - History(undo/redo), 체크리스트 토글, 구분선
+  - 250ms debounce 직렬화 → 부모 1초 autosave
+- globals.css: Lexical 체크리스트/코드 스타일 추가
+- deps: lexical, @lexical/react·rich-text·list·code·markdown·utils·headless
+
+### Notes
+- 인라인 서식은 편집 중 동작·plain text로 저장(영속 안 함), 블록 10종/버전 스냅샷은 후속
+- 인터랙션(IME/캐럿/단축)은 실브라우저 검증 권장
+
+---
+
 ## [v3.1.9] — 2026-06-26 · Tasks 캘린더 뷰
 
 ### Added
