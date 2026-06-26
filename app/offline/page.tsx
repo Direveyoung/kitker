@@ -1,4 +1,4 @@
-export const metadata = { title: "오프라인 · eveworks" };
+export const metadata = { title: "오프라인 · Kitker" };
 
 export default function OfflinePage() {
   return (

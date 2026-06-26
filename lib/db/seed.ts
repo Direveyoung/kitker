@@ -2,7 +2,7 @@ import { randomUUID } from "node:crypto";
 import { db, schema } from "./index";
 
 const USER_ID =
-  process.env.EVE_DEV_USER_ID || "00000000-0000-0000-0000-000000000001";
+  process.env.KITKER_DEV_USER_ID || "00000000-0000-0000-0000-000000000001";
 
 function at(dayOffset: number, h: number, m = 0): string {
   const d = new Date();

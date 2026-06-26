@@ -1,6 +1,6 @@
 # 🚀 DEPLOY — toy2 셀프호스팅
 
-> eveworks v3.1 · SQLite 단일 파일 · `next start` 셀프호스팅
+> kitker v3.1 · SQLite 단일 파일 · `next start` 셀프호스팅
 > Vercel 아님 — toy2(자체 서버)에서 구동.
 
 ---
@@ -21,8 +21,8 @@
 ## 1. 클론 & 의존성
 
 ```bash
-git clone https://github.com/Direveyoung/eveworks.git
-cd eveworks
+git clone https://github.com/Direveyoung/kitker.git
+cd kitker
 npm ci          # 네이티브 모듈(better-sqlite3) 자동 빌드
 ```
 
@@ -34,15 +34,15 @@ cp .env.example .env.local
 
 `.env.local` 핵심 값:
 ```bash
-EVE_DEV_USER_ID=00000000-0000-0000-0000-000000000001
-EVE_AUTH_ENABLED=false
+KITKER_DEV_USER_ID=00000000-0000-0000-0000-000000000001
+KITKER_AUTH_ENABLED=false
 NEXT_PUBLIC_APP_URL=https://calendar.kitker.com
 
 # DB를 레포 밖 영속 경로에 두기 (업데이트 시 데이터 보존)
-EVE_DB_PATH=/var/lib/eveworks/eveworks.db
+KITKER_DB_PATH=/var/lib/kitker/kitker.db
 ```
 
-> ⚠️ `EVE_DB_PATH`를 레포 안 `./data`로 두면 `git clean`/재배포 시 날아갈 수 있음.
+> ⚠️ `KITKER_DB_PATH`를 레포 안 `./data`로 두면 `git clean`/재배포 시 날아갈 수 있음.
 > **레포 밖 절대경로** 권장. 디렉토리는 앱이 자동 생성(mkdir).
 
 ## 3. 빌드 & 시드
@@ -50,7 +50,7 @@ EVE_DB_PATH=/var/lib/eveworks/eveworks.db
 ```bash
 npm run build
 npm run seed          # 최초 1회 — 캘린더 3 + 샘플 일정/할일
-                      # (EVE_DB_PATH 동일 환경에서 실행해야 같은 DB에 들어감)
+                      # (KITKER_DB_PATH 동일 환경에서 실행해야 같은 DB에 들어감)
 ```
 
 ## 4. 구동
@@ -61,15 +61,15 @@ npm run start         # 포트 3000 (PORT=4000 npm run start 로 변경 가능)
 
 ### pm2 상시 구동 예시
 ```bash
-pm2 start "npm run start" --name eveworks
+pm2 start "npm run start" --name kitker
 pm2 save && pm2 startup
 ```
 
-### systemd 예시 (`/etc/systemd/system/eveworks.service`)
+### systemd 예시 (`/etc/systemd/system/kitker.service`)
 ```ini
 [Service]
-WorkingDirectory=/home/eve/eveworks
-Environment=EVE_DB_PATH=/var/lib/eveworks/eveworks.db
+WorkingDirectory=/home/eve/kitker
+Environment=KITKER_DB_PATH=/var/lib/kitker/kitker.db
 ExecStart=/usr/bin/npm run start
 Restart=always
 [Install]
@@ -92,27 +92,27 @@ calendar.kitker.com {
 ## 6. 업데이트
 
 ```bash
-cd eveworks
+cd kitker
 git pull
 npm ci
 npm run build
-pm2 restart eveworks   # 또는 systemctl restart eveworks
+pm2 restart kitker   # 또는 systemctl restart kitker
 ```
-DB는 `EVE_DB_PATH`(레포 밖)에 있으므로 보존됨.
+DB는 `KITKER_DB_PATH`(레포 밖)에 있으므로 보존됨.
 스키마는 `lib/db/index.ts`의 `CREATE TABLE IF NOT EXISTS` 부트스트랩으로 자동 반영.
 
 ## 7. 백업
 
 ```bash
 # 단순 파일 복사 (WAL 포함 권장)
-sqlite3 /var/lib/eveworks/eveworks.db ".backup '/backup/eveworks-$(date +%F).db'"
+sqlite3 /var/lib/kitker/kitker.db ".backup '/backup/kitker-$(date +%F).db'"
 ```
 
 ---
 
 ## 체크리스트
 - [ ] build 도구 설치 → `npm ci` 성공 (better-sqlite3 컴파일)
-- [ ] `EVE_DB_PATH` 레포 밖 절대경로 설정
+- [ ] `KITKER_DB_PATH` 레포 밖 절대경로 설정
 - [ ] `npm run build && npm run seed` (최초)
 - [ ] pm2/systemd 등록
 - [ ] HTTPS 프록시 (PWA 위해 필수)

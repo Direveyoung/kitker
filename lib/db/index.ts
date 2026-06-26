@@ -4,9 +4,9 @@ import Database from "better-sqlite3";
 import { drizzle } from "drizzle-orm/better-sqlite3";
 import * as schema from "./schema";
 
-// toy2 셀프호스팅: 별도 DB 서비스 없이 파일 1개. EVE_DB_PATH로 경로 지정 가능.
+// toy2 셀프호스팅: 별도 DB 서비스 없이 파일 1개. KITKER_DB_PATH로 경로 지정 가능.
 const DB_PATH =
-  process.env.EVE_DB_PATH || path.join(process.cwd(), "data", "eveworks.db");
+  process.env.KITKER_DB_PATH || path.join(process.cwd(), "data", "kitker.db");
 
 fs.mkdirSync(path.dirname(DB_PATH), { recursive: true });
 

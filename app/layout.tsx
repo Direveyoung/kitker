@@ -20,12 +20,12 @@ const notoSerifKR = Noto_Serif_KR({
 });
 
 export const metadata: Metadata = {
-  title: "eveworks",
+  title: "Kitker",
   description: "영아 이사(Eve)의 1인 워크스페이스",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
-    title: "eveworks",
+    title: "Kitker",
     statusBarStyle: "default",
   },
 };
@@ -56,7 +56,7 @@ export default function RootLayout({
           attribute="class"
           defaultTheme="system"
           enableSystem
-          storageKey="eveworks-theme"
+          storageKey="kitker-theme"
           disableTransitionOnChange
         >
           {children}

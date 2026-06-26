@@ -12,7 +12,7 @@ export function TopBar() {
       <div className="flex items-center gap-2">
         <button
           type="button"
-          onClick={() => window.dispatchEvent(new CustomEvent("eveworks:open-chloe"))}
+          onClick={() => window.dispatchEvent(new CustomEvent("kitker:open-chloe"))}
           title="클로이 (Chloé)"
           className="inline-flex items-center gap-1.5 rounded-md border border-border px-2.5 py-1 text-xs text-text-secondary transition-colors hover:bg-bg-muted hover:text-text-primary"
         >

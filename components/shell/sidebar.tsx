@@ -49,7 +49,7 @@ const NAV: NavItem[] = [
   },
 ];
 
-const STORAGE_KEY = "eveworks:sidebar:collapsed";
+const STORAGE_KEY = "kitker:sidebar:collapsed";
 
 export function Sidebar({ tree }: { tree?: React.ReactNode }) {
   const pathname = usePathname();
@@ -101,7 +101,7 @@ export function Sidebar({ tree }: { tree?: React.ReactNode }) {
         {!collapsed && (
           <>
             <span className="text-sm font-semibold tracking-tight">
-              eveworks
+              Kitker
             </span>
             <button
               type="button"
@@ -140,7 +140,7 @@ export function Sidebar({ tree }: { tree?: React.ReactNode }) {
           )}
           title="빠른 캡처 (⌘N)"
           onClick={() =>
-            window.dispatchEvent(new CustomEvent("eveworks:open-capture"))
+            window.dispatchEvent(new CustomEvent("kitker:open-capture"))
           }
         >
           <Plus className="size-4 shrink-0" />
@@ -157,7 +157,7 @@ export function Sidebar({ tree }: { tree?: React.ReactNode }) {
         <button
           type="button"
           onClick={() =>
-            window.dispatchEvent(new CustomEvent("eveworks:open-search"))
+            window.dispatchEvent(new CustomEvent("kitker:open-search"))
           }
           className={cn(
             "inline-flex items-center gap-2 rounded-md border bg-bg-page text-sm text-text-secondary transition-colors hover:bg-bg-muted hover:text-text-primary",

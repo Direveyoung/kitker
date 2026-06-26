@@ -1,9 +1,9 @@
-# 🌿 eveworks v3.1 — KICK_OFF (최종 설계)
+# 🌿 kitker v3.1 — KICK_OFF (최종 설계)
 
 > **2026-05-12 · 영아 이사 1인 맞춤형 워크스페이스 · 마크 방법론 적용**
 > **테마: Petals (라이트) + Velvet Night (다크) 하이브리드 · 수동 전환 가능**
 >
-> 레포: https://github.com/Direveyoung/eveworks
+> 레포: https://github.com/Direveyoung/kitker
 > 배포: https://calendar.kitker.com (toy2 셀프호스팅)
 
 ---
@@ -82,7 +82,7 @@ Auth.js는 Phase 4에서 추가. Phase 1~3은 dev user 하드코딩.
 
 ### 폴더 구조
 ```
-eveworks/
+kitker/
 ├── app/
 │   ├── (workspace)/
 │   │   ├── layout.tsx              # 사이드바 + 메인 + 우측 패널
@@ -257,7 +257,7 @@ export default function RootLayout({ children }) {
           attribute="class"
           defaultTheme="system"
           enableSystem
-          storageKey="eveworks-theme"
+          storageKey="kitker-theme"
         >
           {children}
         </ThemeProvider>
@@ -393,18 +393,18 @@ type Block =
 ### .env.local
 ```
 DATABASE_URL=<Neon connection string>
-EVE_DEV_USER_ID=00000000-0000-0000-0000-000000000001
-EVE_AUTH_ENABLED=false
+KITKER_DEV_USER_ID=00000000-0000-0000-0000-000000000001
+KITKER_AUTH_ENABLED=false
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 ```
 
 ### lib/auth/dev-session.ts
 ```typescript
 export async function getSession() {
-  if (process.env.EVE_AUTH_ENABLED === 'true') return await auth();
+  if (process.env.KITKER_AUTH_ENABLED === 'true') return await auth();
   return {
     user: {
-      id: process.env.EVE_DEV_USER_ID!,
+      id: process.env.KITKER_DEV_USER_ID!,
       email: 'eveyoungforever@gmail.com',
       name: '영아'
     }
@@ -470,7 +470,7 @@ export async function getSession() {
 
 ### Phase 4 — 인증 + 도메인 (1~2일)
 22. Auth.js v5 부활 (Resend Magic Link)
-23. EVE_AUTH_ENABLED=true 전환
+23. KITKER_AUTH_ENABLED=true 전환
 24. 도메인 연결 (Vercel + DNS)
 
 ---
@@ -516,7 +516,7 @@ Phase 1 완료. Phase 2 시작해줘.
 - 새 세션은 CLAUDE.md부터
 
 ### Git
-- GitHub: Direveyoung/eveworks
+- GitHub: Direveyoung/kitker
 - 1폴더 1commit
 - main push → Vercel 자동 배포 1~2분
 

@@ -44,10 +44,10 @@ export function CommandBar() {
       setOpen(true);
     }
     window.addEventListener("keydown", onKey);
-    window.addEventListener("eveworks:open-search", onOpen);
+    window.addEventListener("kitker:open-search", onOpen);
     return () => {
       window.removeEventListener("keydown", onKey);
-      window.removeEventListener("eveworks:open-search", onOpen);
+      window.removeEventListener("kitker:open-search", onOpen);
     };
   }, []);
 
@@ -104,7 +104,7 @@ export function CommandBar() {
       hint: "노션·애플메모",
       run: () => {
         setOpen(false);
-        window.dispatchEvent(new CustomEvent("eveworks:open-import"));
+        window.dispatchEvent(new CustomEvent("kitker:open-import"));
       },
     },
   ];

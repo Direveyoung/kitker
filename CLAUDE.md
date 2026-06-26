@@ -1,4 +1,4 @@
-# CLAUDE.md — eveworks v3.1 컨텍스트
+# CLAUDE.md — kitker v3.1 컨텍스트
 
 > 새 세션 시작 시 **이 파일부터 읽기**. 다음은 KICK_OFF.md.
 
@@ -6,10 +6,10 @@
 
 ## 🎯 프로젝트
 
-**eveworks** = 영아 이사(Eve, 김영아) 1인 워크스페이스.
+**kitker** = 영아 이사(Eve, 김영아) 1인 워크스페이스.
 노션 + 클릭업 + 구글캘린더 + 애플메모 통합. 1인 맞춤이라 70% 단순화.
 
-- 레포: https://github.com/Direveyoung/eveworks
+- 레포: https://github.com/Direveyoung/kitker
 - 배포: https://calendar.kitker.com (toy2 셀프호스팅 · 미배포)
 - 현재 버전: **v3.1** (v1, v2 폐기 — 2026-05-12)
 
@@ -104,7 +104,7 @@ KICK_OFF.md에 1-7단계 모두 정리됨.
 
 - `.env.local` 절대 commit X (`.gitignore` 포함)
 - Anthropic API Key는 서버 라우트에서만 (Phase 2 Chloé)
-- Phase 4까지 dev user 하드코딩 (`EVE_DEV_USER_ID`)
+- Phase 4까지 dev user 하드코딩 (`KITKER_DEV_USER_ID`)
 - 자격증명: 비밀번호 저장 X, 힌트만
 
 ---
@@ -112,7 +112,7 @@ KICK_OFF.md에 1-7단계 모두 정리됨.
 ## 📂 디렉토리 (예정)
 
 ```
-eveworks/
+kitker/
 ├── app/
 │   ├── (workspace)/{today,calendar,tasks,pages/[pageId]}/
 │   ├── api/{pages,search,import}/

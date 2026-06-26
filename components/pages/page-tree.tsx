@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 import { createPage, deletePage, movePage } from "@/lib/pages/actions";
 
 type Zone = "before" | "after" | "child";
-const DND_MIME = "application/x-eveworks-page";
+const DND_MIME = "application/x-kitker-page";
 import type { PageNode } from "@/lib/pages/types";
 
 export function PageTree({ nodes }: { nodes: PageNode[] }) {

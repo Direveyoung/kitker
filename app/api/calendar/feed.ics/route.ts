@@ -36,15 +36,15 @@ export async function GET() {
   const lines: string[] = [
     "BEGIN:VCALENDAR",
     "VERSION:2.0",
-    "PRODID:-//eveworks//calendar//KO",
+    "PRODID:-//kitker//calendar//KO",
     "CALSCALE:GREGORIAN",
     "METHOD:PUBLISH",
-    "X-WR-CALNAME:eveworks",
+    "X-WR-CALNAME:kitker",
     "X-WR-TIMEZONE:Asia/Seoul",
   ];
 
   for (const e of events) {
-    lines.push("BEGIN:VEVENT", `UID:${e.id}@eveworks`, `DTSTAMP:${stamp}`);
+    lines.push("BEGIN:VEVENT", `UID:${e.id}@kitker`, `DTSTAMP:${stamp}`);
     if (e.allDay) {
       const s = dateOnly(e.startsAt);
       const end = e.endsAt ? dateOnly(e.endsAt) : s;
@@ -63,7 +63,7 @@ export async function GET() {
   return new Response(lines.join("\r\n"), {
     headers: {
       "Content-Type": "text/calendar; charset=utf-8",
-      "Content-Disposition": 'inline; filename="eveworks.ics"',
+      "Content-Disposition": 'inline; filename="kitker.ics"',
       "Cache-Control": "no-cache",
     },
   });

@@ -1,4 +1,4 @@
-# 🌿 eveworks v3.1
+# 🌿 kitker v3.1
 
 > 영아 이사(Eve, 김영아)의 1인 워크스페이스.
 > 노션 + 클릭업 + 구글캘린더 + 애플메모 통합, 1인 맞춤이라 70% 단순화.
@@ -25,8 +25,8 @@ Next.js 15 · React 19 · TypeScript · Tailwind v4 · shadcn/ui · Lexical · N
 ## 🚀 시작
 
 ```bash
-git clone https://github.com/Direveyoung/eveworks.git
-cd eveworks
+git clone https://github.com/Direveyoung/kitker.git
+cd kitker
 cp .env.example .env.local
 # .env.local 채우기
 npm install

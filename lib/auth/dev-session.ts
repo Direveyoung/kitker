@@ -1,6 +1,6 @@
 /**
  * Phase 4까지 dev user 하드코딩.
- * EVE_AUTH_ENABLED=true가 되면 Auth.js v5 흐름으로 폴백.
+ * KITKER_AUTH_ENABLED=true가 되면 Auth.js v5 흐름으로 폴백.
  */
 export type EveSession = {
   user: {
@@ -11,14 +11,14 @@ export type EveSession = {
 };
 
 export async function getSession(): Promise<EveSession | null> {
-  if (process.env.EVE_AUTH_ENABLED === "true") {
+  if (process.env.KITKER_AUTH_ENABLED === "true") {
     // Phase 4 진입 시 여기서 Auth.js auth() 호출
     throw new Error("Auth.js 미구현 (Phase 4에서 추가)");
   }
 
-  const id = process.env.EVE_DEV_USER_ID;
+  const id = process.env.KITKER_DEV_USER_ID;
   if (!id) {
-    throw new Error("EVE_DEV_USER_ID가 .env.local에 없습니다");
+    throw new Error("KITKER_DEV_USER_ID가 .env.local에 없습니다");
   }
   return {
     user: {

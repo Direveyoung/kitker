@@ -67,5 +67,5 @@
 
 ## Phase 4 — 인증 + 도메인
 - [ ] Auth.js v5 부활 (Resend Magic Link)
-- [ ] EVE_AUTH_ENABLED=true 전환
+- [ ] KITKER_AUTH_ENABLED=true 전환
 - [ ] 도메인 연결 (Vercel + DNS)

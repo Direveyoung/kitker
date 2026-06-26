@@ -36,10 +36,10 @@ export function CaptureBar() {
       setOpen(true);
     }
     window.addEventListener("keydown", onKey);
-    window.addEventListener("eveworks:open-capture", onOpen);
+    window.addEventListener("kitker:open-capture", onOpen);
     return () => {
       window.removeEventListener("keydown", onKey);
-      window.removeEventListener("eveworks:open-capture", onOpen);
+      window.removeEventListener("kitker:open-capture", onOpen);
     };
   }, []);
 

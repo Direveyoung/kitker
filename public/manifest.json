@@ -1,6 +1,6 @@
 {
-  "name": "eveworks",
-  "short_name": "eveworks",
+  "name": "Kitker",
+  "short_name": "Kitker",
   "description": "영아 이사(Eve)의 1인 워크스페이스",
   "start_url": "/today",
   "display": "standalone",

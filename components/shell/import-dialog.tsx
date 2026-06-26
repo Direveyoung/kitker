@@ -19,10 +19,10 @@ export function ImportDialog() {
     function onKey(e: KeyboardEvent) {
       if (e.key === "Escape") setOpen(false);
     }
-    window.addEventListener("eveworks:open-import", onOpen);
+    window.addEventListener("kitker:open-import", onOpen);
     window.addEventListener("keydown", onKey);
     return () => {
-      window.removeEventListener("eveworks:open-import", onOpen);
+      window.removeEventListener("kitker:open-import", onOpen);
       window.removeEventListener("keydown", onKey);
     };
   }, []);

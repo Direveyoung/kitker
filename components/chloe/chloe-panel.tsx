@@ -29,10 +29,10 @@ export function ChloePanel() {
     function onKey(e: KeyboardEvent) {
       if (e.key === "Escape") setOpen(false);
     }
-    window.addEventListener("eveworks:open-chloe", onOpen);
+    window.addEventListener("kitker:open-chloe", onOpen);
     window.addEventListener("keydown", onKey);
     return () => {
-      window.removeEventListener("eveworks:open-chloe", onOpen);
+      window.removeEventListener("kitker:open-chloe", onOpen);
       window.removeEventListener("keydown", onKey);
     };
   }, []);

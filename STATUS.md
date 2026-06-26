@@ -1,4 +1,4 @@
-# 📊 STATUS — eveworks v3.1
+# 📊 STATUS — kitker v3.1
 
 > 최종 업데이트: 2026-06-26 · **Phase 1 개발 순서 완료**
 
@@ -30,8 +30,8 @@
 
 - **모든 콘텐츠 = 메모(`pages`)** — 단일 테이블, `parent_id` 무한 중첩
 - **블록 본문** = `blocks` JSON 컬럼 (에디터 ↔ 임포트 ↔ 검색 공유 계약)
-- **DB**: SQLite (better-sqlite3 + Drizzle), 파일 1개 (`data/eveworks.db`, `EVE_DB_PATH`로 변경 가능)
-- **인증**: Phase 4까지 dev user 하드코딩 (`EVE_DEV_USER_ID`, `EVE_AUTH_ENABLED=false`)
+- **DB**: SQLite (better-sqlite3 + Drizzle), 파일 1개 (`data/kitker.db`, `KITKER_DB_PATH`로 변경 가능)
+- **인증**: Phase 4까지 dev user 하드코딩 (`KITKER_DEV_USER_ID`, `KITKER_AUTH_ENABLED=false`)
 
 ### 디렉토리
 ```

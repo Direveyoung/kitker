@@ -76,7 +76,7 @@ export function LexicalEditor({
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const initialConfig = {
-    namespace: "eveworks",
+    namespace: "kitker",
     nodes: [...EDITOR_NODES],
     theme: THEME,
     editorState: () => $blocksToRoot(initial),

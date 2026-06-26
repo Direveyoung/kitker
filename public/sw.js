@@ -1,5 +1,5 @@
-// eveworks PWA service worker
-const CACHE = "eveworks-v1";
+// kitker PWA service worker
+const CACHE = "kitker-v1";
 const PRECACHE = ["/offline", "/icon.svg", "/manifest.json"];
 
 self.addEventListener("install", (event) => {
