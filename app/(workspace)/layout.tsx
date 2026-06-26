@@ -4,6 +4,7 @@ import { PageTreeData } from "@/components/pages/page-tree-data";
 import { CommandBar } from "@/components/shell/command-bar";
 import { CaptureBar } from "@/components/shell/capture-bar";
 import { ImportDialog } from "@/components/shell/import-dialog";
+import { ChloePanel } from "@/components/chloe/chloe-panel";
 
 export default function WorkspaceLayout({
   children,
@@ -20,6 +21,7 @@ export default function WorkspaceLayout({
       <CommandBar />
       <CaptureBar />
       <ImportDialog />
+      <ChloePanel />
     </div>
   );
 }

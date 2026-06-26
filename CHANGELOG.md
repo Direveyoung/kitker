@@ -1,5 +1,22 @@
 # 📝 CHANGELOG
 
+## [v3.3.0] — 2026-06-26 · Phase 2 시작 · 클로이 챗
+
+### Added
+- 클로이(Chloé) AI 비서 — Anthropic Tool Use (claude-opus-4-8, adaptive thinking)
+  - `app/api/chat/route.ts`: 서버 tool-use 루프(최대 6회), 키 없으면 graceful 400
+  - `lib/chloe/tools.ts`: 도구 6종 — create_memo/create_todo/create_event/
+    search_pages/list_todos/list_events (기존 actions·queries 재사용)
+  - `components/chloe/chloe-panel.tsx`: 사이드 슬라이드오버 챗 UI, 액션 후 router.refresh
+  - top-bar에 "클로이" 버튼 (`eveworks:open-chloe` 이벤트)
+- dep: @anthropic-ai/sdk
+
+### Notes
+- 실제 대화는 런타임 `ANTHROPIC_API_KEY` 필요 (영아 이사 액션)
+- 서버 라우트에서만 키 사용 (보안 규칙 준수)
+
+---
+
 ## [v3.2.0] — 2026-06-26 · 블록 에디터 Lexical 전환
 
 ### Changed
