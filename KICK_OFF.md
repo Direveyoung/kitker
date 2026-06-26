@@ -4,7 +4,7 @@
 > **테마: Petals (라이트) + Velvet Night (다크) 하이브리드 · 수동 전환 가능**
 >
 > 레포: https://github.com/Direveyoung/eveworks
-> 배포: https://eveworks.vercel.app
+> 배포: https://calendar.kitker.com (toy2 셀프호스팅)
 
 ---
 

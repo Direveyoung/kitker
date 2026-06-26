@@ -10,7 +10,7 @@
 노션 + 클릭업 + 구글캘린더 + 애플메모 통합. 1인 맞춤이라 70% 단순화.
 
 - 레포: https://github.com/Direveyoung/eveworks
-- 배포: https://eveworks.vercel.app
+- 배포: https://calendar.kitker.com (toy2 셀프호스팅 · 미배포)
 - 현재 버전: **v3.1** (v1, v2 폐기 — 2026-05-12)
 
 ---

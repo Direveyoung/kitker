@@ -36,7 +36,7 @@ cp .env.example .env.local
 ```bash
 EVE_DEV_USER_ID=00000000-0000-0000-0000-000000000001
 EVE_AUTH_ENABLED=false
-NEXT_PUBLIC_APP_URL=https://eveworks.<toy2-domain>
+NEXT_PUBLIC_APP_URL=https://calendar.kitker.com
 
 # DB를 레포 밖 영속 경로에 두기 (업데이트 시 데이터 보존)
 EVE_DB_PATH=/var/lib/eveworks/eveworks.db
@@ -81,7 +81,7 @@ WantedBy=multi-user.target
 ## 5. 리버스 프록시 (Caddy 예시)
 
 ```
-eveworks.example.com {
+calendar.kitker.com {
     reverse_proxy localhost:3000
 }
 ```
