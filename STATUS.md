@@ -1,6 +1,15 @@
-# 📊 STATUS — kitker v3.1
+# 📊 STATUS — Kitker
 
-> 최종 업데이트: 2026-06-26 · **Phase 1 개발 순서 완료**
+> 최종 업데이트: 2026-06-27 · **Phase 1 완료 + Phase 2 진행중** · 다음작업 → HANDOFF.md
+
+## 🚀 Phase 2 (외부연동·운영) — 진행
+- ✅ 클로이(Chloé) AI 비서 — `/api/chat` tool use(메모/할일/일정 생성·검색·조회). *키만 넣으면 동작*
+- ✅ 웹푸시 알림 — 일정 임박/오늘마감 리마인더(VAPID, cron 5분)
+- ✅ 아웃룩 일정 스냅샷 임포트(MS365 MCP → "Outlook (회사)" 캘린더)
+- ✅ toy02 배포 (pm2 `kitker`:3300 + Cloudflare Tunnel) · 리브랜딩 eveworks→Kitker
+- ⏳ 도메인 calendar.kitker.com · 구글캘린더 · 이메일(Gmail/Outlook) 네이티브 · 클로이 키 → **HANDOFF.md**
+
+---
 
 ---
 
@@ -68,6 +77,6 @@ public/{manifest.json,sw.js,icon.svg}
 - [x] 블록 에디터 Lexical 전환 (마크다운 단축 + 체크리스트 + 인라인 서식)
 - [ ] 남은 것: 인라인 서식 영속 저장, 블록 10종(table/page_link), 5분 버전 스냅샷
 
-## 🔜 다음 페이즈
-- Phase 2: ClickUp/구글캘린더 동기화, 클로이 챗, pgvector(또는 FTS) 하이브리드
-- Phase 4: Auth.js v5 부활 + 도메인
+## 🔜 다음
+- Phase 2 잔여: 도메인 · 구글캘린더 · 이메일(Gmail/Outlook) 네이티브 동기화 (상세 HANDOFF.md)
+- Phase 4: Auth.js v5 부활
